@@ -24,43 +24,6 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
-namespace symbol {
-
-inline constexpr SymbolResponse::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : symbol_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        quote_currency_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        base_currency_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        tick_size_{0},
-        max_leverage_{0},
-        price_precision_{0},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR SymbolResponse::SymbolResponse(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct SymbolResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR SymbolResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~SymbolResponseDefaultTypeInternal() {}
-  union {
-    SymbolResponse _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SymbolResponseDefaultTypeInternal _SymbolResponse_default_instance_;
 
 inline constexpr SymbolRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -88,7 +51,81 @@ struct SymbolRequestDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SymbolRequestDefaultTypeInternal _SymbolRequest_default_instance_;
-}  // namespace symbol
+
+inline constexpr SymbolMetadata::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : symbol_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        tick_size_{0},
+        max_leverage_{0},
+        initial_margin_{0},
+        maintenance_margin_{0},
+        precision_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SymbolMetadata::SymbolMetadata(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SymbolMetadataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SymbolMetadataDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SymbolMetadataDefaultTypeInternal() {}
+  union {
+    SymbolMetadata _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SymbolMetadataDefaultTypeInternal _SymbolMetadata_default_instance_;
+
+inline constexpr SymbolList::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : symbols_{},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SymbolList::SymbolList(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SymbolListDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SymbolListDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SymbolListDefaultTypeInternal() {}
+  union {
+    SymbolList _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SymbolListDefaultTypeInternal _SymbolList_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR Empty::Empty(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct EmptyDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EmptyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EmptyDefaultTypeInternal() {}
+  union {
+    Empty _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EmptyDefaultTypeInternal _Empty_default_instance_;
 static constexpr const ::_pb::EnumDescriptor**
     file_level_enum_descriptors_symbol_2eproto = nullptr;
 static constexpr const ::_pb::ServiceDescriptor**
@@ -97,68 +134,89 @@ const ::uint32_t
     TableStruct_symbol_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolRequest, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::SymbolRequest, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolRequest, _impl_.symbol_),
+        PROTOBUF_FIELD_OFFSET(::SymbolRequest, _impl_.symbol_),
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _impl_.symbol_),
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _impl_.tick_size_),
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _impl_.price_precision_),
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _impl_.max_leverage_),
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _impl_.quote_currency_),
-        PROTOBUF_FIELD_OFFSET(::symbol::SymbolResponse, _impl_.base_currency_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _impl_.symbol_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _impl_.tick_size_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _impl_.precision_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _impl_.max_leverage_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _impl_.initial_margin_),
+        PROTOBUF_FIELD_OFFSET(::SymbolMetadata, _impl_.maintenance_margin_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::SymbolList, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::SymbolList, _impl_.symbols_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Empty, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::symbol::SymbolRequest)},
-        {9, -1, -1, sizeof(::symbol::SymbolResponse)},
+        {0, -1, -1, sizeof(::SymbolRequest)},
+        {9, -1, -1, sizeof(::SymbolMetadata)},
+        {23, -1, -1, sizeof(::SymbolList)},
+        {32, -1, -1, sizeof(::Empty)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
-    &::symbol::_SymbolRequest_default_instance_._instance,
-    &::symbol::_SymbolResponse_default_instance_._instance,
+    &::_SymbolRequest_default_instance_._instance,
+    &::_SymbolMetadata_default_instance_._instance,
+    &::_SymbolList_default_instance_._instance,
+    &::_Empty_default_instance_._instance,
 };
 const char descriptor_table_protodef_symbol_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\014symbol.proto\022\006symbol\"\037\n\rSymbolRequest\022"
-    "\016\n\006symbol\030\001 \001(\t\"\221\001\n\016SymbolResponse\022\016\n\006sy"
-    "mbol\030\001 \001(\t\022\021\n\ttick_size\030\002 \001(\001\022\027\n\017price_p"
-    "recision\030\003 \001(\005\022\024\n\014max_leverage\030\004 \001(\001\022\026\n\016"
-    "quote_currency\030\005 \001(\t\022\025\n\rbase_currency\030\006 "
-    "\001(\t2O\n\rSymbolService\022>\n\rGetSymbolInfo\022\025."
-    "symbol.SymbolRequest\032\026.symbol.SymbolResp"
-    "onseb\006proto3"
+    "\n\014symbol.proto\"\037\n\rSymbolRequest\022\016\n\006symbo"
+    "l\030\001 \001(\t\"\220\001\n\016SymbolMetadata\022\016\n\006symbol\030\001 \001"
+    "(\t\022\021\n\ttick_size\030\002 \001(\001\022\021\n\tprecision\030\003 \001(\005"
+    "\022\024\n\014max_leverage\030\004 \001(\001\022\026\n\016initial_margin"
+    "\030\005 \001(\001\022\032\n\022maintenance_margin\030\006 \001(\001\"\035\n\nSy"
+    "mbolList\022\017\n\007symbols\030\001 \003(\t\"\007\n\005Empty2m\n\016Sy"
+    "mbolRegistry\0224\n\021GetSymbolMetadata\022\016.Symb"
+    "olRequest\032\017.SymbolMetadata\022%\n\016ListAllSym"
+    "bols\022\006.Empty\032\013.SymbolListb\006proto3"
 };
 static ::absl::once_flag descriptor_table_symbol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_symbol_2eproto = {
     false,
     false,
-    292,
+    353,
     descriptor_table_protodef_symbol_2eproto,
     "symbol.proto",
     &descriptor_table_symbol_2eproto_once,
     nullptr,
     0,
-    2,
+    4,
     schemas,
     file_default_instances,
     TableStruct_symbol_2eproto::offsets,
     file_level_enum_descriptors_symbol_2eproto,
     file_level_service_descriptors_symbol_2eproto,
 };
-namespace symbol {
 // ===================================================================
 
 class SymbolRequest::_Internal {
@@ -172,11 +230,11 @@ SymbolRequest::SymbolRequest(::google::protobuf::Arena* arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:symbol.SymbolRequest)
+  // @@protoc_insertion_point(arena_constructor:SymbolRequest)
 }
 inline PROTOBUF_NDEBUG_INLINE SymbolRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::symbol::SymbolRequest& from_msg)
+    const Impl_& from, const ::SymbolRequest& from_msg)
       : symbol_(arena, from.symbol_),
         _cached_size_{0} {}
 
@@ -194,7 +252,7 @@ SymbolRequest::SymbolRequest(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
 
-  // @@protoc_insertion_point(copy_constructor:symbol.SymbolRequest)
+  // @@protoc_insertion_point(copy_constructor:SymbolRequest)
 }
 inline PROTOBUF_NDEBUG_INLINE SymbolRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -206,7 +264,7 @@ inline void SymbolRequest::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
 }
 SymbolRequest::~SymbolRequest() {
-  // @@protoc_insertion_point(destructor:symbol.SymbolRequest)
+  // @@protoc_insertion_point(destructor:SymbolRequest)
   SharedDtor(*this);
 }
 inline void SymbolRequest::SharedDtor(MessageLite& self) {
@@ -253,7 +311,7 @@ const ::google::protobuf::internal::ClassData* SymbolRequest::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 35, 2> SymbolRequest::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 28, 2> SymbolRequest::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -268,7 +326,7 @@ const ::_pbi::TcParseTable<0, 1, 0, 35, 2> SymbolRequest::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::symbol::SymbolRequest>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::SymbolRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string symbol = 1;
@@ -283,14 +341,14 @@ const ::_pbi::TcParseTable<0, 1, 0, 35, 2> SymbolRequest::_table_ = {
   }},
   // no aux_entries
   {{
-    "\24\6\0\0\0\0\0\0"
-    "symbol.SymbolRequest"
+    "\15\6\0\0\0\0\0\0"
+    "SymbolRequest"
     "symbol"
   }},
 };
 
 PROTOBUF_NOINLINE void SymbolRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:symbol.SymbolRequest)
+// @@protoc_insertion_point(message_clear_start:SymbolRequest)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -311,7 +369,7 @@ PROTOBUF_NOINLINE void SymbolRequest::Clear() {
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
           const SymbolRequest& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:symbol.SymbolRequest)
+          // @@protoc_insertion_point(serialize_to_array_start:SymbolRequest)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -319,7 +377,7 @@ PROTOBUF_NOINLINE void SymbolRequest::Clear() {
           if (!this_._internal_symbol().empty()) {
             const std::string& _s = this_._internal_symbol();
             ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "symbol.SymbolRequest.symbol");
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "SymbolRequest.symbol");
             target = stream->WriteStringMaybeAliased(1, _s, target);
           }
 
@@ -328,7 +386,7 @@ PROTOBUF_NOINLINE void SymbolRequest::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:symbol.SymbolRequest)
+          // @@protoc_insertion_point(serialize_to_array_end:SymbolRequest)
           return target;
         }
 
@@ -339,7 +397,7 @@ PROTOBUF_NOINLINE void SymbolRequest::Clear() {
         ::size_t SymbolRequest::ByteSizeLong() const {
           const SymbolRequest& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:symbol.SymbolRequest)
+          // @@protoc_insertion_point(message_byte_size_start:SymbolRequest)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -360,7 +418,7 @@ PROTOBUF_NOINLINE void SymbolRequest::Clear() {
 void SymbolRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
   auto* const _this = static_cast<SymbolRequest*>(&to_msg);
   auto& from = static_cast<const SymbolRequest&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:symbol.SymbolRequest)
+  // @@protoc_insertion_point(class_specific_merge_from_start:SymbolRequest)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -372,7 +430,7 @@ void SymbolRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
 }
 
 void SymbolRequest::CopyFrom(const SymbolRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:symbol.SymbolRequest)
+// @@protoc_insertion_point(class_specific_copy_from_start:SymbolRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -392,36 +450,34 @@ void SymbolRequest::InternalSwap(SymbolRequest* PROTOBUF_RESTRICT other) {
 }
 // ===================================================================
 
-class SymbolResponse::_Internal {
+class SymbolMetadata::_Internal {
  public:
 };
 
-SymbolResponse::SymbolResponse(::google::protobuf::Arena* arena)
+SymbolMetadata::SymbolMetadata(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:symbol.SymbolResponse)
+  // @@protoc_insertion_point(arena_constructor:SymbolMetadata)
 }
-inline PROTOBUF_NDEBUG_INLINE SymbolResponse::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE SymbolMetadata::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::symbol::SymbolResponse& from_msg)
+    const Impl_& from, const ::SymbolMetadata& from_msg)
       : symbol_(arena, from.symbol_),
-        quote_currency_(arena, from.quote_currency_),
-        base_currency_(arena, from.base_currency_),
         _cached_size_{0} {}
 
-SymbolResponse::SymbolResponse(
+SymbolMetadata::SymbolMetadata(
     ::google::protobuf::Arena* arena,
-    const SymbolResponse& from)
+    const SymbolMetadata& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  SymbolResponse* const _this = this;
+  SymbolMetadata* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -430,80 +486,76 @@ SymbolResponse::SymbolResponse(
                offsetof(Impl_, tick_size_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, tick_size_),
-           offsetof(Impl_, price_precision_) -
+           offsetof(Impl_, precision_) -
                offsetof(Impl_, tick_size_) +
-               sizeof(Impl_::price_precision_));
+               sizeof(Impl_::precision_));
 
-  // @@protoc_insertion_point(copy_constructor:symbol.SymbolResponse)
+  // @@protoc_insertion_point(copy_constructor:SymbolMetadata)
 }
-inline PROTOBUF_NDEBUG_INLINE SymbolResponse::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE SymbolMetadata::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : symbol_(arena),
-        quote_currency_(arena),
-        base_currency_(arena),
         _cached_size_{0} {}
 
-inline void SymbolResponse::SharedCtor(::_pb::Arena* arena) {
+inline void SymbolMetadata::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, tick_size_),
            0,
-           offsetof(Impl_, price_precision_) -
+           offsetof(Impl_, precision_) -
                offsetof(Impl_, tick_size_) +
-               sizeof(Impl_::price_precision_));
+               sizeof(Impl_::precision_));
 }
-SymbolResponse::~SymbolResponse() {
-  // @@protoc_insertion_point(destructor:symbol.SymbolResponse)
+SymbolMetadata::~SymbolMetadata() {
+  // @@protoc_insertion_point(destructor:SymbolMetadata)
   SharedDtor(*this);
 }
-inline void SymbolResponse::SharedDtor(MessageLite& self) {
-  SymbolResponse& this_ = static_cast<SymbolResponse&>(self);
+inline void SymbolMetadata::SharedDtor(MessageLite& self) {
+  SymbolMetadata& this_ = static_cast<SymbolMetadata&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.symbol_.Destroy();
-  this_._impl_.quote_currency_.Destroy();
-  this_._impl_.base_currency_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* SymbolResponse::PlacementNew_(const void*, void* mem,
+inline void* SymbolMetadata::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) SymbolResponse(arena);
+  return ::new (mem) SymbolMetadata(arena);
 }
-constexpr auto SymbolResponse::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(SymbolResponse),
-                                            alignof(SymbolResponse));
+constexpr auto SymbolMetadata::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(SymbolMetadata),
+                                            alignof(SymbolMetadata));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull SymbolResponse::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull SymbolMetadata::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_SymbolResponse_default_instance_._instance,
+        &_SymbolMetadata_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &SymbolResponse::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<SymbolResponse>(),
+        &SymbolMetadata::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SymbolMetadata>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &SymbolResponse::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<SymbolResponse>(), &SymbolResponse::ByteSizeLong,
-            &SymbolResponse::_InternalSerialize,
+        &SymbolMetadata::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SymbolMetadata>(), &SymbolMetadata::ByteSizeLong,
+            &SymbolMetadata::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_._cached_size_),
         false,
     },
-    &SymbolResponse::kDescriptorMethods,
+    &SymbolMetadata::kDescriptorMethods,
     &descriptor_table_symbol_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* SymbolResponse::GetClassData() const {
+const ::google::protobuf::internal::ClassData* SymbolMetadata::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 0, 63, 2> SymbolResponse::_table_ = {
+const ::_pbi::TcParseTable<3, 6, 0, 29, 2> SymbolMetadata::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -518,89 +570,85 @@ const ::_pbi::TcParseTable<3, 6, 0, 63, 2> SymbolResponse::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::symbol::SymbolResponse>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::SymbolMetadata>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
     // string symbol = 1;
     {::_pbi::TcParser::FastUS1,
-     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.symbol_)}},
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.symbol_)}},
     // double tick_size = 2;
     {::_pbi::TcParser::FastF64S1,
-     {17, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.tick_size_)}},
-    // int32 price_precision = 3;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SymbolResponse, _impl_.price_precision_), 63>(),
-     {24, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.price_precision_)}},
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.tick_size_)}},
+    // int32 precision = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SymbolMetadata, _impl_.precision_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.precision_)}},
     // double max_leverage = 4;
     {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.max_leverage_)}},
-    // string quote_currency = 5;
-    {::_pbi::TcParser::FastUS1,
-     {42, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.quote_currency_)}},
-    // string base_currency = 6;
-    {::_pbi::TcParser::FastUS1,
-     {50, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.base_currency_)}},
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.max_leverage_)}},
+    // double initial_margin = 5;
+    {::_pbi::TcParser::FastF64S1,
+     {41, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.initial_margin_)}},
+    // double maintenance_margin = 6;
+    {::_pbi::TcParser::FastF64S1,
+     {49, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.maintenance_margin_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // string symbol = 1;
-    {PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.symbol_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.symbol_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // double tick_size = 2;
-    {PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.tick_size_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.tick_size_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // int32 price_precision = 3;
-    {PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.price_precision_), 0, 0,
+    // int32 precision = 3;
+    {PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.precision_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // double max_leverage = 4;
-    {PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.max_leverage_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.max_leverage_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // string quote_currency = 5;
-    {PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.quote_currency_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string base_currency = 6;
-    {PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.base_currency_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // double initial_margin = 5;
+    {PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.initial_margin_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double maintenance_margin = 6;
+    {PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.maintenance_margin_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
-    "\25\6\0\0\0\16\15\0"
-    "symbol.SymbolResponse"
+    "\16\6\0\0\0\0\0\0"
+    "SymbolMetadata"
     "symbol"
-    "quote_currency"
-    "base_currency"
   }},
 };
 
-PROTOBUF_NOINLINE void SymbolResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:symbol.SymbolResponse)
+PROTOBUF_NOINLINE void SymbolMetadata::Clear() {
+// @@protoc_insertion_point(message_clear_start:SymbolMetadata)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   _impl_.symbol_.ClearToEmpty();
-  _impl_.quote_currency_.ClearToEmpty();
-  _impl_.base_currency_.ClearToEmpty();
   ::memset(&_impl_.tick_size_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.price_precision_) -
-      reinterpret_cast<char*>(&_impl_.tick_size_)) + sizeof(_impl_.price_precision_));
+      reinterpret_cast<char*>(&_impl_.precision_) -
+      reinterpret_cast<char*>(&_impl_.tick_size_)) + sizeof(_impl_.precision_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* SymbolResponse::_InternalSerialize(
+        ::uint8_t* SymbolMetadata::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const SymbolResponse& this_ = static_cast<const SymbolResponse&>(base);
+          const SymbolMetadata& this_ = static_cast<const SymbolMetadata&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* SymbolResponse::_InternalSerialize(
+        ::uint8_t* SymbolMetadata::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const SymbolResponse& this_ = *this;
+          const SymbolMetadata& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:symbol.SymbolResponse)
+          // @@protoc_insertion_point(serialize_to_array_start:SymbolMetadata)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -608,7 +656,7 @@ PROTOBUF_NOINLINE void SymbolResponse::Clear() {
           if (!this_._internal_symbol().empty()) {
             const std::string& _s = this_._internal_symbol();
             ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "symbol.SymbolResponse.symbol");
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "SymbolMetadata.symbol");
             target = stream->WriteStringMaybeAliased(1, _s, target);
           }
 
@@ -619,11 +667,11 @@ PROTOBUF_NOINLINE void SymbolResponse::Clear() {
                 2, this_._internal_tick_size(), target);
           }
 
-          // int32 price_precision = 3;
-          if (this_._internal_price_precision() != 0) {
+          // int32 precision = 3;
+          if (this_._internal_precision() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<3>(
-                    stream, this_._internal_price_precision(), target);
+                    stream, this_._internal_precision(), target);
           }
 
           // double max_leverage = 4;
@@ -633,20 +681,18 @@ PROTOBUF_NOINLINE void SymbolResponse::Clear() {
                 4, this_._internal_max_leverage(), target);
           }
 
-          // string quote_currency = 5;
-          if (!this_._internal_quote_currency().empty()) {
-            const std::string& _s = this_._internal_quote_currency();
-            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "symbol.SymbolResponse.quote_currency");
-            target = stream->WriteStringMaybeAliased(5, _s, target);
+          // double initial_margin = 5;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_initial_margin()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                5, this_._internal_initial_margin(), target);
           }
 
-          // string base_currency = 6;
-          if (!this_._internal_base_currency().empty()) {
-            const std::string& _s = this_._internal_base_currency();
-            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "symbol.SymbolResponse.base_currency");
-            target = stream->WriteStringMaybeAliased(6, _s, target);
+          // double maintenance_margin = 6;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_maintenance_margin()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                6, this_._internal_maintenance_margin(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -654,18 +700,18 @@ PROTOBUF_NOINLINE void SymbolResponse::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:symbol.SymbolResponse)
+          // @@protoc_insertion_point(serialize_to_array_end:SymbolMetadata)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t SymbolResponse::ByteSizeLong(const MessageLite& base) {
-          const SymbolResponse& this_ = static_cast<const SymbolResponse&>(base);
+        ::size_t SymbolMetadata::ByteSizeLong(const MessageLite& base) {
+          const SymbolMetadata& this_ = static_cast<const SymbolMetadata&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t SymbolResponse::ByteSizeLong() const {
-          const SymbolResponse& this_ = *this;
+        ::size_t SymbolMetadata::ByteSizeLong() const {
+          const SymbolMetadata& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:symbol.SymbolResponse)
+          // @@protoc_insertion_point(message_byte_size_start:SymbolMetadata)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -679,16 +725,6 @@ PROTOBUF_NOINLINE void SymbolResponse::Clear() {
               total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                               this_._internal_symbol());
             }
-            // string quote_currency = 5;
-            if (!this_._internal_quote_currency().empty()) {
-              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                              this_._internal_quote_currency());
-            }
-            // string base_currency = 6;
-            if (!this_._internal_base_currency().empty()) {
-              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                              this_._internal_base_currency());
-            }
             // double tick_size = 2;
             if (::absl::bit_cast<::uint64_t>(this_._internal_tick_size()) != 0) {
               total_size += 9;
@@ -697,20 +733,28 @@ PROTOBUF_NOINLINE void SymbolResponse::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_max_leverage()) != 0) {
               total_size += 9;
             }
-            // int32 price_precision = 3;
-            if (this_._internal_price_precision() != 0) {
+            // double initial_margin = 5;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_initial_margin()) != 0) {
+              total_size += 9;
+            }
+            // double maintenance_margin = 6;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_maintenance_margin()) != 0) {
+              total_size += 9;
+            }
+            // int32 precision = 3;
+            if (this_._internal_precision() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_price_precision());
+                  this_._internal_precision());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
         }
 
-void SymbolResponse::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<SymbolResponse*>(&to_msg);
-  auto& from = static_cast<const SymbolResponse&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:symbol.SymbolResponse)
+void SymbolMetadata::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SymbolMetadata*>(&to_msg);
+  auto& from = static_cast<const SymbolMetadata&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:SymbolMetadata)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -718,53 +762,396 @@ void SymbolResponse::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   if (!from._internal_symbol().empty()) {
     _this->_internal_set_symbol(from._internal_symbol());
   }
-  if (!from._internal_quote_currency().empty()) {
-    _this->_internal_set_quote_currency(from._internal_quote_currency());
-  }
-  if (!from._internal_base_currency().empty()) {
-    _this->_internal_set_base_currency(from._internal_base_currency());
-  }
   if (::absl::bit_cast<::uint64_t>(from._internal_tick_size()) != 0) {
     _this->_impl_.tick_size_ = from._impl_.tick_size_;
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_max_leverage()) != 0) {
     _this->_impl_.max_leverage_ = from._impl_.max_leverage_;
   }
-  if (from._internal_price_precision() != 0) {
-    _this->_impl_.price_precision_ = from._impl_.price_precision_;
+  if (::absl::bit_cast<::uint64_t>(from._internal_initial_margin()) != 0) {
+    _this->_impl_.initial_margin_ = from._impl_.initial_margin_;
+  }
+  if (::absl::bit_cast<::uint64_t>(from._internal_maintenance_margin()) != 0) {
+    _this->_impl_.maintenance_margin_ = from._impl_.maintenance_margin_;
+  }
+  if (from._internal_precision() != 0) {
+    _this->_impl_.precision_ = from._impl_.precision_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void SymbolResponse::CopyFrom(const SymbolResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:symbol.SymbolResponse)
+void SymbolMetadata::CopyFrom(const SymbolMetadata& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:SymbolMetadata)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void SymbolResponse::InternalSwap(SymbolResponse* PROTOBUF_RESTRICT other) {
+void SymbolMetadata::InternalSwap(SymbolMetadata* PROTOBUF_RESTRICT other) {
   using std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.symbol_, &other->_impl_.symbol_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.quote_currency_, &other->_impl_.quote_currency_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.base_currency_, &other->_impl_.base_currency_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.price_precision_)
-      + sizeof(SymbolResponse::_impl_.price_precision_)
-      - PROTOBUF_FIELD_OFFSET(SymbolResponse, _impl_.tick_size_)>(
+      PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.precision_)
+      + sizeof(SymbolMetadata::_impl_.precision_)
+      - PROTOBUF_FIELD_OFFSET(SymbolMetadata, _impl_.tick_size_)>(
           reinterpret_cast<char*>(&_impl_.tick_size_),
           reinterpret_cast<char*>(&other->_impl_.tick_size_));
 }
 
-::google::protobuf::Metadata SymbolResponse::GetMetadata() const {
+::google::protobuf::Metadata SymbolMetadata::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
+// ===================================================================
+
+class SymbolList::_Internal {
+ public:
+};
+
+SymbolList::SymbolList(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:SymbolList)
+}
+inline PROTOBUF_NDEBUG_INLINE SymbolList::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::SymbolList& from_msg)
+      : symbols_{visibility, arena, from.symbols_},
+        _cached_size_{0} {}
+
+SymbolList::SymbolList(
+    ::google::protobuf::Arena* arena,
+    const SymbolList& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SymbolList* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:SymbolList)
+}
+inline PROTOBUF_NDEBUG_INLINE SymbolList::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : symbols_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void SymbolList::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+SymbolList::~SymbolList() {
+  // @@protoc_insertion_point(destructor:SymbolList)
+  SharedDtor(*this);
+}
+inline void SymbolList::SharedDtor(MessageLite& self) {
+  SymbolList& this_ = static_cast<SymbolList&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* SymbolList::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SymbolList(arena);
+}
+constexpr auto SymbolList::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(SymbolList, _impl_.symbols_) +
+          decltype(SymbolList::_impl_.symbols_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(SymbolList), alignof(SymbolList), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&SymbolList::PlacementNew_,
+                                 sizeof(SymbolList),
+                                 alignof(SymbolList));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SymbolList::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SymbolList_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SymbolList::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SymbolList>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SymbolList::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SymbolList>(), &SymbolList::ByteSizeLong,
+            &SymbolList::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SymbolList, _impl_._cached_size_),
+        false,
+    },
+    &SymbolList::kDescriptorMethods,
+    &descriptor_table_symbol_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SymbolList::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 26, 2> SymbolList::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::SymbolList>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated string symbols = 1;
+    {::_pbi::TcParser::FastUR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SymbolList, _impl_.symbols_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated string symbols = 1;
+    {PROTOBUF_FIELD_OFFSET(SymbolList, _impl_.symbols_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kUtf8String | ::_fl::kRepSString)},
+  }},
+  // no aux_entries
+  {{
+    "\12\7\0\0\0\0\0\0"
+    "SymbolList"
+    "symbols"
+  }},
+};
+
+PROTOBUF_NOINLINE void SymbolList::Clear() {
+// @@protoc_insertion_point(message_clear_start:SymbolList)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.symbols_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SymbolList::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SymbolList& this_ = static_cast<const SymbolList&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SymbolList::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SymbolList& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:SymbolList)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // repeated string symbols = 1;
+          for (int i = 0, n = this_._internal_symbols_size(); i < n; ++i) {
+            const auto& s = this_._internal_symbols().Get(i);
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                s.data(), static_cast<int>(s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "SymbolList.symbols");
+            target = stream->WriteString(1, s, target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:SymbolList)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SymbolList::ByteSizeLong(const MessageLite& base) {
+          const SymbolList& this_ = static_cast<const SymbolList&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SymbolList::ByteSizeLong() const {
+          const SymbolList& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:SymbolList)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated string symbols = 1;
+            {
+              total_size +=
+                  1 * ::google::protobuf::internal::FromIntSize(this_._internal_symbols().size());
+              for (int i = 0, n = this_._internal_symbols().size(); i < n; ++i) {
+                total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+                    this_._internal_symbols().Get(i));
+              }
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SymbolList::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SymbolList*>(&to_msg);
+  auto& from = static_cast<const SymbolList&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:SymbolList)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_symbols()->MergeFrom(from._internal_symbols());
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SymbolList::CopyFrom(const SymbolList& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:SymbolList)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SymbolList::InternalSwap(SymbolList* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.symbols_.InternalSwap(&other->_impl_.symbols_);
+}
+
+::google::protobuf::Metadata SymbolList::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class Empty::_Internal {
+ public:
+};
+
+Empty::Empty(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:Empty)
+}
+Empty::Empty(
+    ::google::protobuf::Arena* arena,
+    const Empty& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Empty* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:Empty)
+}
+
+inline void* Empty::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) Empty(arena);
+}
+constexpr auto Empty::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Empty),
+                                            alignof(Empty));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull Empty::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_Empty_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &Empty::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<Empty>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &Empty::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<Empty>(), &Empty::ByteSizeLong,
+            &Empty::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(Empty, _impl_._cached_size_),
+        false,
+    },
+    &Empty::kDescriptorMethods,
+    &descriptor_table_symbol_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* Empty::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> Empty::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Empty>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata Empty::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace symbol
 namespace google {
 namespace protobuf {
 }  // namespace protobuf

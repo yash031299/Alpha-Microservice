@@ -1,20 +1,26 @@
 syntax = "proto3";
 
-package symbol;
-
-service SymbolService {
-  rpc GetSymbol(SymbolRequest) returns (SymbolResponse);
+service SymbolRegistry {
+  rpc GetSymbolMetadata (SymbolRequest) returns (SymbolMetadata);
+  rpc ListAllSymbols (Empty) returns (SymbolList); // 👈 New
 }
 
 message SymbolRequest {
   string symbol = 1;
 }
 
-message SymbolResponse {
-  bool found = 1;
-  string symbol = 2;
-  double tick_size = 3;
+message SymbolMetadata {
+  string symbol = 1;
+  double tick_size = 2;
+  int32 precision = 3;
   double max_leverage = 4;
-  int32 price_precision = 5;
-  int32 quantity_precision = 6;
+  double initial_margin = 5;
+  double maintenance_margin = 6;
 }
+
+// 👇 New message for list response
+message SymbolList {
+  repeated string symbols = 1;
+}
+
+message Empty {}

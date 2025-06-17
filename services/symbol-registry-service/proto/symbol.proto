@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service SymbolRegistry {
   rpc GetSymbolMetadata (SymbolRequest) returns (SymbolMetadata);
+  rpc ListAllSymbols (Empty) returns (SymbolList); // 👈 New
 }
 
 message SymbolRequest {
@@ -16,3 +17,10 @@ message SymbolMetadata {
   double initial_margin = 5;
   double maintenance_margin = 6;
 }
+
+// 👇 New message for list response
+message SymbolList {
+  repeated string symbols = 1;
+}
+
+message Empty {}

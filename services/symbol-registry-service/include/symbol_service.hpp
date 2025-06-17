@@ -21,6 +21,11 @@ public:
     grpc::Status GetSymbolMetadata(grpc::ServerContext* context,
                                    const SymbolRequest* request,
                                    SymbolMetadata* response) override;
+    
+    grpc::Status ListAllSymbols(grpc::ServerContext* context,
+                            const Empty* request,
+                            SymbolList* response) override;
+
 
     bool loadSymbolsFromFile(const std::string& filepath = "config/symbols.json");
 

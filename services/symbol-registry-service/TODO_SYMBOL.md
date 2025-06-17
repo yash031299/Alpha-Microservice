@@ -1,38 +1,40 @@
-# 📌 TODO — symbol-registry-service
+# 📌 TODO — symbol-registry-service (Updated: 2025-06-17)
 
-Tracks planned enhancements, optimizations, and production-readiness goals.
+Tracks enhancements, production readiness, and test progress for `symbol-registry-service`.
 
 ---
 
 ## ✅ Phase 1: Core Functionality
 
 - [x] Load `symbols.json` at startup
-- [x] Serve metadata via gRPC
-- [x] Implement `GetSymbolMetadata` with locking
-- [x] Validate tick size, leverage, precision
-- [x] Containerize service with Meson + Docker
+- [x] Serve metadata via gRPC (`GetSymbolMetadata`)
+- [x] Implement `GetSymbolMetadata` with locking and validation
+- [x] Containerize service using Meson + Docker
+- [x] Fix JSON parsing bug (corrected array vs object handling)
+- [x] Fully tested via `grpcurl`
+- [x] Basic Python client tested
 
 ---
 
 ## 🔄 Phase 2: Extensibility
 
-- [ ] Add gRPC endpoint: `ListAllSymbols()`
-- [ ] Support `/reload` for hot config reload (file watcher or API trigger)
-- [ ] Load from Redis (optional for dynamic symbols)
+- [ ] ✅ Add `ListAllSymbols()` RPC endpoint _(proto + impl)_
+- [ ] ⏳ Support `/reload` API or file-watcher for live symbol config refresh
+- [ ] ⏳ Load symbols from Redis (for dynamic symbol updates)
 
 ---
 
 ## 🔒 Phase 3: Security & Reliability
 
-- [ ] Use TLS for gRPC transport
-- [ ] Add authentication (token / cert-based)
-- [ ] Input validation: enforce lowercase symbols, safe limits
+- [ ] Add TLS encryption for gRPC
+- [ ] Add token/cert-based authentication
+- [ ] Input validation (lowercase symbols, safe limits)
 
 ---
 
 ## 📊 Phase 4: Observability
 
-- [ ] Add Prometheus metrics:
+- [ ] Prometheus metrics:
   - Total RPCs served
   - Failed lookups
   - Hot reloads triggered
@@ -42,16 +44,16 @@ Tracks planned enhancements, optimizations, and production-readiness goals.
 
 ## 🧪 Phase 5: Testing
 
-- [ ] Unit tests for:
+- [ ] Unit tests:
   - `loadSymbolsFromFile()`
   - `GetSymbolMetadata()`
-- [ ] Add gRPC integration tests using Python client
-- [ ] Fuzz test for malformed requests
+- [ ] Add integration tests (gRPC via Python client)
+- [ ] Fuzz testing for malformed requests
 
 ---
 
 ## 🚀 Deployment Readiness
 
 - [ ] Add `k8s/service.yaml` and `deployment.yaml`
-- [ ] Preload with 1000+ symbols and benchmark gRPC latency
-- [ ] Expose as cluster-internal endpoint (used by RMS, order-service)
+- [ ] Benchmark with 1000+ symbols for latency
+- [ ] Expose as internal endpoint for RMS, Order, etc.

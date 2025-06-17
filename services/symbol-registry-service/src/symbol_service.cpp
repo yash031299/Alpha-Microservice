@@ -20,7 +20,8 @@ bool SymbolServiceImpl::loadSymbolsFromFile(const std::string& filepath) {
     file >> j;
 
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& [symbol, config] : j.items()) {
+    for (const auto& config : j) {
+        std::string symbol = config["symbol"];
         symbols_[symbol] = SymbolConfig{
             config["tick_size"].get<double>(),
             config["precision"].get<int>(),
@@ -40,6 +41,8 @@ grpc::Status SymbolServiceImpl::GetSymbolMetadata(grpc::ServerContext*,
     std::string symbol = request->symbol();
     std::lock_guard<std::mutex> lock(mutex_);
 
+    SPDLOG_INFO("📥 Received request for symbol: '{}'", symbol);
+
     if (symbols_.find(symbol) == symbols_.end()) {
         return grpc::Status(grpc::StatusCode::NOT_FOUND, "Symbol not found");
     }
@@ -52,5 +55,16 @@ grpc::Status SymbolServiceImpl::GetSymbolMetadata(grpc::ServerContext*,
     response->set_initial_margin(cfg.initialMargin);
     response->set_maintenance_margin(cfg.maintenanceMargin);
 
+    return grpc::Status::OK;
+}
+
+
+grpc::Status SymbolServiceImpl::ListAllSymbols(grpc::ServerContext*,
+                                               const Empty*,
+                                               SymbolList* response) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& [symbol, _] : symbols_) {
+        response->add_symbols(symbol);
+    }
     return grpc::Status::OK;
 }

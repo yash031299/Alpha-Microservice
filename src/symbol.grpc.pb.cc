@@ -20,69 +20,107 @@
 #include <grpcpp/impl/service_type.h>
 #include <grpcpp/support/sync_stream.h>
 #include <grpcpp/ports_def.inc>
-namespace symbol {
 
-static const char* SymbolService_method_names[] = {
-  "/symbol.SymbolService/GetSymbol",
+static const char* SymbolRegistry_method_names[] = {
+  "/SymbolRegistry/GetSymbolMetadata",
+  "/SymbolRegistry/ListAllSymbols",
 };
 
-std::unique_ptr< SymbolService::Stub> SymbolService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+std::unique_ptr< SymbolRegistry::Stub> SymbolRegistry::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
   (void)options;
-  std::unique_ptr< SymbolService::Stub> stub(new SymbolService::Stub(channel, options));
+  std::unique_ptr< SymbolRegistry::Stub> stub(new SymbolRegistry::Stub(channel, options));
   return stub;
 }
 
-SymbolService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_GetSymbol_(SymbolService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+SymbolRegistry::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_GetSymbolMetadata_(SymbolRegistry_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListAllSymbols_(SymbolRegistry_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status SymbolService::Stub::GetSymbol(::grpc::ClientContext* context, const ::symbol::SymbolRequest& request, ::symbol::SymbolResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::symbol::SymbolRequest, ::symbol::SymbolResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetSymbol_, context, request, response);
+::grpc::Status SymbolRegistry::Stub::GetSymbolMetadata(::grpc::ClientContext* context, const ::SymbolRequest& request, ::SymbolMetadata* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::SymbolRequest, ::SymbolMetadata, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetSymbolMetadata_, context, request, response);
 }
 
-void SymbolService::Stub::async::GetSymbol(::grpc::ClientContext* context, const ::symbol::SymbolRequest* request, ::symbol::SymbolResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::symbol::SymbolRequest, ::symbol::SymbolResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetSymbol_, context, request, response, std::move(f));
+void SymbolRegistry::Stub::async::GetSymbolMetadata(::grpc::ClientContext* context, const ::SymbolRequest* request, ::SymbolMetadata* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::SymbolRequest, ::SymbolMetadata, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetSymbolMetadata_, context, request, response, std::move(f));
 }
 
-void SymbolService::Stub::async::GetSymbol(::grpc::ClientContext* context, const ::symbol::SymbolRequest* request, ::symbol::SymbolResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetSymbol_, context, request, response, reactor);
+void SymbolRegistry::Stub::async::GetSymbolMetadata(::grpc::ClientContext* context, const ::SymbolRequest* request, ::SymbolMetadata* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetSymbolMetadata_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::symbol::SymbolResponse>* SymbolService::Stub::PrepareAsyncGetSymbolRaw(::grpc::ClientContext* context, const ::symbol::SymbolRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::symbol::SymbolResponse, ::symbol::SymbolRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetSymbol_, context, request);
+::grpc::ClientAsyncResponseReader< ::SymbolMetadata>* SymbolRegistry::Stub::PrepareAsyncGetSymbolMetadataRaw(::grpc::ClientContext* context, const ::SymbolRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::SymbolMetadata, ::SymbolRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetSymbolMetadata_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::symbol::SymbolResponse>* SymbolService::Stub::AsyncGetSymbolRaw(::grpc::ClientContext* context, const ::symbol::SymbolRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::SymbolMetadata>* SymbolRegistry::Stub::AsyncGetSymbolMetadataRaw(::grpc::ClientContext* context, const ::SymbolRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncGetSymbolRaw(context, request, cq);
+    this->PrepareAsyncGetSymbolMetadataRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-SymbolService::Service::Service() {
+::grpc::Status SymbolRegistry::Stub::ListAllSymbols(::grpc::ClientContext* context, const ::Empty& request, ::SymbolList* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::Empty, ::SymbolList, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_ListAllSymbols_, context, request, response);
+}
+
+void SymbolRegistry::Stub::async::ListAllSymbols(::grpc::ClientContext* context, const ::Empty* request, ::SymbolList* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::Empty, ::SymbolList, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListAllSymbols_, context, request, response, std::move(f));
+}
+
+void SymbolRegistry::Stub::async::ListAllSymbols(::grpc::ClientContext* context, const ::Empty* request, ::SymbolList* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListAllSymbols_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::SymbolList>* SymbolRegistry::Stub::PrepareAsyncListAllSymbolsRaw(::grpc::ClientContext* context, const ::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::SymbolList, ::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_ListAllSymbols_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::SymbolList>* SymbolRegistry::Stub::AsyncListAllSymbolsRaw(::grpc::ClientContext* context, const ::Empty& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncListAllSymbolsRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+SymbolRegistry::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      SymbolService_method_names[0],
+      SymbolRegistry_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< SymbolService::Service, ::symbol::SymbolRequest, ::symbol::SymbolResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](SymbolService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< SymbolRegistry::Service, ::SymbolRequest, ::SymbolMetadata, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](SymbolRegistry::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::symbol::SymbolRequest* req,
-             ::symbol::SymbolResponse* resp) {
-               return service->GetSymbol(ctx, req, resp);
+             const ::SymbolRequest* req,
+             ::SymbolMetadata* resp) {
+               return service->GetSymbolMetadata(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      SymbolRegistry_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< SymbolRegistry::Service, ::Empty, ::SymbolList, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](SymbolRegistry::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::Empty* req,
+             ::SymbolList* resp) {
+               return service->ListAllSymbols(ctx, req, resp);
              }, this)));
 }
 
-SymbolService::Service::~Service() {
+SymbolRegistry::Service::~Service() {
 }
 
-::grpc::Status SymbolService::Service::GetSymbol(::grpc::ServerContext* context, const ::symbol::SymbolRequest* request, ::symbol::SymbolResponse* response) {
+::grpc::Status SymbolRegistry::Service::GetSymbolMetadata(::grpc::ServerContext* context, const ::SymbolRequest* request, ::SymbolMetadata* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
+::grpc::Status SymbolRegistry::Service::ListAllSymbols(::grpc::ServerContext* context, const ::Empty* request, ::SymbolList* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
 
-}  // namespace symbol
-#include <grpcpp/ports_undef.inc>
 

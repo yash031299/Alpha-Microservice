@@ -2,16 +2,20 @@
   {
     "symbol": "BTCUSDT",
     "tick_size": 0.5,
-    "price_precision": 1,
-    "max_leverage": 50,
+    "precision": 1,
+    "max_leverage": 200,
+    "initial_margin": 0.05,
+    "maintenance_margin": 0.02,
     "base_currency": "BTC",
     "quote_currency": "USDT"
   },
   {
     "symbol": "ETHUSDT",
     "tick_size": 0.1,
-    "price_precision": 2,
-    "max_leverage": 25,
+    "precision": 2,
+    "max_leverage": 200,
+    "initial_margin": 0.05,
+    "maintenance_margin": 0.02,
     "base_currency": "ETH",
     "quote_currency": "USDT"
   }

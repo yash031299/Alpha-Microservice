@@ -1,17 +1,24 @@
-#include "redis_subscriber.hpp"
+#include "redis_stream_listener.hpp"
+#include "utils.hpp"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-void setupLogging() {
-    auto logger = spdlog::stdout_color_mt("console");
-    spdlog::set_default_logger(logger);
-    spdlog::set_level(spdlog::level::info);
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%l] %v");
-}
-
 int main() {
-    setupLogging();
-    RedisSubscriber sub;
-    sub.subscribeToStream("market_ticks");
+    // Initialize spdlog with color output and standard formatting
+    utils::initLogging();
+
+    SPDLOG_INFO("🚀 Starting Stream Service...");
+
+    try {
+        // Create and run the Redis tick stream listener
+        RedisStreamListener listener;
+        listener.run();
+    } catch (const std::exception& ex) {
+        SPDLOG_CRITICAL("❌ Fatal error in stream service: {}", ex.what());
+    } catch (...) {
+        SPDLOG_CRITICAL("❌ Unknown fatal error occurred.");
+    }
+
+    SPDLOG_INFO("🧹 Stream Service exited cleanly.");
     return 0;
 }
