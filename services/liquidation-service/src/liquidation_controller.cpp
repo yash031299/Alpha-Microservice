@@ -66,6 +66,7 @@ bool LiquidationController::isDuplicate(const std::string& key) {
     auto it = recent.find(key);
     if (it != recent.end()) {
         if (std::chrono::duration_cast<std::chrono::milliseconds>(now - it->second).count() < cacheExpiryMs) {
+            SPDLOG_INFO("🌀 Duplicate key detected within cooldown window: {}", key);
             return true;
         }
     }

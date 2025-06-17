@@ -84,20 +84,29 @@ std::optional<std::shared_ptr<user>> RedisUserClient::getUser(const std::string&
 bool RedisUserClient::saveUser(const user& usr) {
     try {
         auto conn = pool->getConnection();
+        if (!conn || !conn.get()) {
+            SPDLOG_ERROR("🚫 Null Redis connection while saving user {}", usr.userid);
+            return false;
+        }
+
         std::string key = "USER:" + usr.userid;
 
-        // Delete existing data to avoid stale values
+        // Clear existing user data
         redisCommand(conn.get(), "DEL %s", key.c_str());
 
-        // Set wallet
-        redisCommand(conn.get(), "HSET %s wallet %f", key.c_str(), usr.wallet);
+        // Save wallet with high-precision formatting
+        auto walletStr = fmt::format("{:.8f}", usr.wallet);
+        redisCommand(conn.get(), "HSET %s wallet %s", key.c_str(), walletStr.c_str());
 
-        // Set each position field
+        // Save each active position
         for (const auto& [symbol, pos] : usr.positions) {
-            std::string posStr = fmt::format("{},{},{},{},{},{}",
+            if (!pos) continue;
+
+            std::string posStr = fmt::format("{:.8f},{:.8f},{:.2f},{:.8f},{:.8f},{:.8f}",
                 pos->quantity, pos->avg_price, pos->leverage,
                 pos->notional, pos->pnl, pos->liquid_price
             );
+
             redisCommand(conn.get(), "HSET %s pos:%s %s", key.c_str(), symbol.c_str(), posStr.c_str());
         }
 
@@ -105,7 +114,11 @@ bool RedisUserClient::saveUser(const user& usr) {
         return true;
 
     } catch (const std::exception& e) {
-        SPDLOG_ERROR("❌ RedisUserClient::saveUser exception: {}", e.what());
+        SPDLOG_ERROR("❌ RedisUserClient::saveUser exception for {}: {}", usr.userid, e.what());
+        return false;
+    } catch (...) {
+        SPDLOG_ERROR("❌ Unknown error in saveUser for user {}", usr.userid);
         return false;
     }
 }
+

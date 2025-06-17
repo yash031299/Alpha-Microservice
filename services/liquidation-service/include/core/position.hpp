@@ -9,4 +9,5 @@ struct position {
     double notional = 0.0;
     double pnl = 0.0;
     double liquid_price = 0.0;
+    std::string margin_type = "cross";
 };
