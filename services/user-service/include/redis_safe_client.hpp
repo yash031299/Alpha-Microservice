@@ -20,6 +20,7 @@ public:
     redisReply* command(const char* format, ...);
 
 private:
+    bool connectWithRetry(int maxRetries = 5, int baseDelayMs = 200);
     std::string host_;
     int port_;
     redisContext* ctx_;

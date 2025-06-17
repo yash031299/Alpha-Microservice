@@ -2289,21 +2289,15 @@ AlphaOMS
 │   ├── symbol-service.yaml
 │   └── user-service.yaml
 ├── proto
-│   ├── src
-│   │   ├── order.grpc.pb.cc
-│   │   ├── order.grpc.pb.h
-│   │   ├── order.pb.cc
-│   │   └── order.pb.h
 │   ├── .DS_Store
 │   ├── accounting.proto
 │   ├── config.proto
 │   ├── log_event.proto
 │   ├── match.proto
 │   ├── order.proto
-│   ├── pnl_pb2_grpc.py
-│   ├── pnl_pb2.py
 │   ├── pnl.proto
 │   ├── report_export.proto
+│   ├── snapshot.proto
 │   ├── symbol.proto
 │   └── user.proto
 ├── services
@@ -2769,21 +2763,22 @@ AlphaOMS
 │   │   │   └── rms_engine.cpp
 │   │   ├── tests
 │   │   │   └── test_rms.cpp
-│   │   ├── .env
 │   │   ├── Dockerfile
 │   │   ├── meson.build
 │   │   └── TODO_RMS.md
 │   ├── stream-service
 │   │   ├── include
-│   │   │   ├── redis_subscriber.hpp
-│   │   │   └── tick_parser.hpp
+│   │   │   ├── redis_stream_listener.hpp
+│   │   │   └── utils.hpp
 │   │   ├── src
 │   │   │   ├── health_checker.cpp
 │   │   │   ├── main.cpp
-│   │   │   ├── redis_subscriber.cpp
-│   │   │   └── tick_parser.cpp
+│   │   │   ├── redis_stream_listener.cpp
+│   │   │   └── utils.cpp
+│   │   ├── .env
 │   │   ├── Dockerfile
-│   │   └── meson.build
+│   │   ├── meson.build
+│   │   └── TODO.md
 │   ├── symbol-registry-service
 │   │   ├── client
 │   │   │   └── test_symbol_client.py
@@ -2801,18 +2796,31 @@ AlphaOMS
 │   │   │   ├── symbol_service.cpp
 │   │   │   ├── symbol.grpc.pb.cc
 │   │   │   └── symbol.pb.cc
+│   │   ├── .DS_Store
 │   │   ├── Dockerfile
 │   │   ├── meson.build
 │   │   └── TODO_SYMBOL.md
 │   ├── symbol-service
 │   │   ├── include
+│   │   │   ├── config_loader.hpp
+│   │   │   ├── grpc_server.hpp
+│   │   │   ├── health_check.hpp
 │   │   │   ├── orderbook_manager.hpp
-│   │   │   └── snapshot_generator.hpp
+│   │   │   ├── redis_publisher.hpp
+│   │   │   ├── snapshot_generator.hpp
+│   │   │   ├── snapshot.grpc.pb.h
+│   │   │   └── snapshot.pb.h
 │   │   ├── src
+│   │   │   ├── config_loader.cpp
+│   │   │   ├── grpc_server.cpp
 │   │   │   ├── health_check.cpp
 │   │   │   ├── main.cpp
 │   │   │   ├── orderbook_manager.cpp
-│   │   │   └── snapshot_generator.cpp
+│   │   │   ├── redis_publisher.cpp
+│   │   │   ├── snapshot_generator.cpp
+│   │   │   ├── snapshot.grpc.pb.cc
+│   │   │   └── snapshot.pb.cc
+│   │   ├── .env
 │   │   ├── Dockerfile
 │   │   ├── meson.build
 │   │   └── TODO_SYMBOL.md

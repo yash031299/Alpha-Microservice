@@ -3,8 +3,8 @@
 
 using namespace std::chrono_literals;
 
-WalletFlushScheduler::WalletFlushScheduler(std::shared_ptr<UserWalletStore> walletStore)
-    : walletStore_(std::move(walletStore)) {}
+WalletFlushScheduler::WalletFlushScheduler(std::shared_ptr<UserWalletStore> walletStore, int intervalSeconds)
+    : walletStore_(std::move(walletStore)), intervalSeconds_(intervalSeconds) {}
 
 void WalletFlushScheduler::start() {
     running_ = true;
