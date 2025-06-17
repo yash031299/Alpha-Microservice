@@ -3,5 +3,5 @@
 
 class WalletStore {
 public:
-    static void applyTrade(const std::string& userId, double pnl);
+    void applyTrade(const std::string& userId, double pnl);
 };

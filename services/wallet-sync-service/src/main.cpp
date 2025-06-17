@@ -1,27 +1,61 @@
 #include "redis_listener.hpp"
+#include "config_loader.hpp"
 #include <spdlog/spdlog.h>
 #include <thread>
-int startHealthCheckServer();  // Declare it
+#include <csignal>
+#include <atomic>
+#include "wallet_store.hpp"
+
+WalletStore walletStore;
+
+int startHealthCheckServer();
+
+std::shared_ptr<RedisListener> listener;
+std::atomic<bool> isShuttingDown{false};
+
+void handleSignal(int signal) {
+    SPDLOG_WARN("⚠️ Signal {} received. Shutting down...", signal);
+    isShuttingDown = true;
+
+    if (listener) {
+        listener->stop();
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    exit(0);
+}
 
 int main() {
-    spdlog::info("[wallet-sync-service] Starting...");
+    SPDLOG_INFO("🚀 [wallet-sync-service] Bootstrapping...");
 
-    // Start Redis pub/sub listener on background thread
-    std::thread redisThread([] {
-        RedisTradeListener listener;
-        listener.start("127.0.0.1", 6379);
-    });
+    try {
+        ConfigLoader::loadEnv(".env");
 
-    redisThread.detach();
-    spdlog::info("[wallet-sync-service] Redis listener thread started");
+        // Attach graceful shutdown handlers
+        std::signal(SIGINT, handleSignal);
+        std::signal(SIGTERM, handleSignal);
 
-    // Start HTTP health server
-    std::thread healthThread([] {
+        // Start Redis Listener
+        listener = std::make_shared<RedisListener>();
+        listener->start();
+
+        // Start health check server (Boost.Beast)
         startHealthCheckServer();
-    });
-    healthThread.detach();
 
-    // Main thread sleeps forever
-    while (true) std::this_thread::sleep_for(std::chrono::hours(24));
+        SPDLOG_INFO("✅ wallet-sync-service is up and running.");
+
+        // Block main thread
+        while (!isShuttingDown) {
+            std::this_thread::sleep_for(std::chrono::seconds(60));
+        }
+
+    } catch (const std::exception& e) {
+        SPDLOG_CRITICAL("💥 Fatal exception in main: {}", e.what());
+        return EXIT_FAILURE;
+    } catch (...) {
+        SPDLOG_CRITICAL("💥 Unknown fatal exception in main.");
+        return EXIT_FAILURE;
+    }
+
     return 0;
 }
