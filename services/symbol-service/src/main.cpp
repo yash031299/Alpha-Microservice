@@ -1,38 +1,86 @@
 #include "orderbook_manager.hpp"
 #include "snapshot_generator.hpp"
+#include "config_loader.hpp"
+#include "redis_publisher.hpp"
+#include "grpc_server.hpp"
+#include "health_check.hpp"
+
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 #include <thread>
 #include <chrono>
+#include <memory>
 
-extern void runHealthMonitor(const std::string& serviceName, int intervalSeconds);
+
+std::vector<std::string> split(const std::string& str, char delim) {
+    std::vector<std::string> tokens;
+    std::stringstream ss(str);
+    std::string token;
+    while (std::getline(ss, token, delim)) {
+        if (!token.empty()) tokens.push_back(token);
+    }
+    return tokens;
+}
+
+
 
 int main() {
-    // Logger setup
-    auto logger = spdlog::stdout_color_mt("symbol-service");
-    spdlog::set_default_logger(logger);
-    spdlog::set_level(spdlog::level::info);
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
+    try {
+        // Logger setup
+        auto sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        auto logger = std::make_shared<spdlog::logger>("symbol-service", sink);
+        spdlog::set_default_logger(logger);
+        spdlog::set_level(spdlog::level::info);
+        spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
 
-    SPDLOG_INFO("🚀 Starting symbol-service...");
+        SPDLOG_INFO("🚀 Starting symbol-service...");
 
-    OrderBookManager book;
-    std::string symbol = "BTC-USDT";
+        // Load config
+        ConfigLoader::loadEnv(".env");
+        int interval = std::stoi(ConfigLoader::get("SNAPSHOT_INTERVAL_SEC", "5"));
+        std::string redisHost = ConfigLoader::get("REDIS_HOST", "localhost");
+        int redisPort = std::stoi(ConfigLoader::get("REDIS_PORT", "6379"));
+        std::string grpcAddr = ConfigLoader::get("GRPC_PORT", "50061");
+        std::string bindAddr = "0.0.0.0:" + grpcAddr;
 
-    // Insert mock orders for testing
-    book.addOrder(symbol, Order{"buy1", 25980.0, 0.75, true});
-    book.addOrder(symbol, Order{"sell1", 25990.0, 1.20, false});
+        auto symbols = split(ConfigLoader::get("SYMBOLS"), ',');
+        SPDLOG_INFO("✅ Loaded {} symbols: {}", symbols.size(), ConfigLoader::get("SYMBOLS"));
 
-    // Start health monitor
-    runHealthMonitor("symbol-service");
+        // Init core managers
+        auto book = std::make_shared<OrderBookManager>();
+        RedisPublisher redis(redisHost, redisPort);
 
-    // Periodically publish L1 snapshot
-    while (true) {
-        auto top = book.getTopOfBook(symbol, 1);
-        std::string snapshot = SnapshotGenerator::generateJsonL1(symbol, top);
-        SPDLOG_INFO("[SNAPSHOT] {}", snapshot);
+        // Add initial mock orders
+        for (const auto& sym : symbols) {
+            book->addOrder(sym, Order{sym + "_buy", 25980.0, 1.0, true});
+            book->addOrder(sym, Order{sym + "_sell", 25990.0, 1.0, false});
+        }
 
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        // Start gRPC server in background thread
+        std::thread([book, bindAddr]() {
+            auto service = std::make_shared<SymbolSnapshotServiceImpl>(book);
+            runGrpcServer(service, bindAddr);
+        }).detach();
+
+        // Start health monitor
+        runHealthMonitor("symbol-service", interval);
+
+
+        // Periodically publish snapshots to Redis
+        while (true) {
+            for (const auto& sym : symbols) {
+                auto levels = book->getTopOfBook(sym, 1);
+                std::string snapshot = SnapshotGenerator::generateJsonL1(sym, levels);
+                redis.publishSnapshot(sym, snapshot);
+            }
+            std::this_thread::sleep_for(std::chrono::seconds(interval));
+        }
+
+    } catch (const std::exception& e) {
+        SPDLOG_CRITICAL("Fatal error: {}", e.what());
+        return EXIT_FAILURE;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

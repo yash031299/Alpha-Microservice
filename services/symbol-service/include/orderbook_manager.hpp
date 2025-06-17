@@ -29,14 +29,16 @@ public:
 
 private:
     struct Book {
-        std::map<double, double, std::greater<>> bids; // price → qty
-        std::map<double, double> asks;                 // price → qty
+        std::map<double, double, std::greater<>> bids;
+        std::map<double, double> asks;
         std::unordered_map<std::string, Order> orders;
         std::mutex mutex;
     };
 
-    std::unordered_map<std::string, Book> books_;
+    std::unordered_map<std::string, std::shared_ptr<Book>> books_;
     std::mutex booksMutex_;
+
+    std::shared_ptr<Book> getBook(const std::string& symbol);
 };
 
 #endif // ORDERBOOK_MANAGER_HPP

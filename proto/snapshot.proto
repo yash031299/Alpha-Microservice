@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package snapshot;
+
+service SymbolSnapshotService {
+  rpc GetL1 (SymbolRequest) returns (L1SnapshotResponse);
+}
+
+message SymbolRequest {
+  string symbol = 1;
+}
+
+message PriceLevel {
+  double price = 1;
+  double qty = 2;
+}
+
+message L1SnapshotResponse {
+  string symbol = 1;
+  PriceLevel bid = 2;
+  PriceLevel ask = 3;
+  string timestamp = 4;
+}
