@@ -1,0 +1,9 @@
+[requires]
+boost/1.84.0
+spdlog/1.13.0
+hiredis/1.1.0
+prometheus-cpp/1.1.0
+cpp-httplib/0.15.3
+
+[generators]
+PkgConfigDeps

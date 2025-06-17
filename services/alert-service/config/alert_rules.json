@@ -1,0 +1,5 @@
+[
+  { "type": "low_balance", "symbol": "BTC", "threshold": 100 },
+  { "type": "high_pnl", "symbol": "ETH", "threshold": 500 },
+  { "type": "liquidation_margin", "symbol": "BTC", "threshold": 50 }
+]

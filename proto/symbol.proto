@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package symbol;
+
+service SymbolService {
+  rpc GetSymbol(SymbolRequest) returns (SymbolResponse);
+}
+
+message SymbolRequest {
+  string symbol = 1;
+}
+
+message SymbolResponse {
+  bool found = 1;
+  string symbol = 2;
+  double tick_size = 3;
+  double max_leverage = 4;
+  int32 price_precision = 5;
+  int32 quantity_precision = 6;
+}

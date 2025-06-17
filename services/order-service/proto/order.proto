@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package order;
+
+message OrderRequest {
+  string user_id = 1;
+  string symbol = 2;
+  double price = 3;
+  double quantity = 4;
+  string side = 5;       // "BUY" / "SELL"
+  string ordertype = 6;  // "LIMIT" / "MARKET" / "SL"
+  double ltp = 7;
+  double stopprice = 8;
+  double leverage = 9;
+}
+
+message OrderResponse {
+  string status = 1;     // ACCEPTED / REJECTED / ERROR
+  string message = 2;
+}
+
+service OrderService {
+  rpc SubmitOrder(OrderRequest) returns (OrderResponse);
+  rpc CheckHealth (HealthRequest) returns (HealthResponse);
+  rpc CancelOrder(CancelRequest) returns (CancelResponse);
+  rpc ModifyOrder(ModifyRequest) returns (ModifyResponse); 
+}
+
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+}
+
+message CancelRequest {
+  string user_id = 1;
+  string order_id = 2;
+  string symbol = 3;
+}
+
+message CancelResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message ModifyRequest {
+  string user_id = 1;
+  string order_id = 2;
+  string symbol = 3;
+  double new_price = 4;
+  double new_quantity = 5;
+}
+
+message ModifyResponse {
+  string status = 1;
+  string message = 2;
+}
+

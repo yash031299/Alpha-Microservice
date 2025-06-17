@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package user;
+
+message WalletUpdateRequest {
+  string user_id = 1;
+  double amount_change = 2;
+  string reason = 3;
+}
+
+message WalletResponse {
+  double new_balance = 1;
+  bool success = 2;
+
+  // Added for order-service needs
+  double available_balance = 3;
+  double used_margin = 4;
+}
+
+message UserIdRequest {
+  string user_id = 1;
+}
+
+message UserMetadataResponse {
+  string user_id = 1;
+  string role = 2;
+  bool kyc_verified = 3;
+}
+
+service UserService {
+  // Already existing
+  rpc UpdateWallet(WalletUpdateRequest) returns (WalletResponse);
+
+  // Required for order-service
+  rpc GetUserMetadata(UserIdRequest) returns (UserMetadataResponse);
+  rpc GetWallet(UserIdRequest) returns (WalletResponse);
+}

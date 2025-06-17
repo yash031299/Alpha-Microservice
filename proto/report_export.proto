@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package report;
+
+service ReportExportService {
+  rpc ExportUserReport (ExportRequest) returns (ExportResponse);
+}
+
+message ExportRequest {
+  string user_id = 1;
+  string format = 2; // "csv" or "pdf"
+  string type = 3;   // "ledger", "pnl", etc.
+  string json_data = 4; // raw JSON string
+}
+
+message ExportResponse {
+  bool success = 1;
+  string message = 2;
+  string file_path = 3;
+}

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package pnl;
+
+service PnLService {
+  rpc GetEquity(PnLRequest) returns (PnLResponse);
+  rpc CheckLiquidation(PnLRequest) returns (LiquidationResponse);
+  rpc GetAllPnL(PnLRequest) returns (AllPnLResponse);
+  rpc UpdateWallet(WalletRequest) returns (WalletResponse);
+  rpc SendTrade(TradeUpdate) returns (Empty); // for testing
+}
+
+message PnLRequest {
+  string user_id = 1;
+}
+
+message PnLResponse {
+  string user_id = 1;
+  double equity = 2;
+}
+
+message LiquidationResponse {
+  string user_id = 1;
+  bool should_liquidate = 2;
+}
+
+message AllPnLResponse {
+  string user_id = 1;
+  double unrealized = 2;
+  double realized = 3;
+  double equity = 4;
+}
+
+message WalletRequest {
+  string user_id = 1;
+  double delta = 2;
+}
+
+message WalletResponse {
+  bool success = 1;
+}
+
+message TradeUpdate {
+  string user_id = 1;
+  string symbol = 2;
+  double price = 3;
+  double quantity = 4;
+  string side = 5;
+}
+
+message Empty {}

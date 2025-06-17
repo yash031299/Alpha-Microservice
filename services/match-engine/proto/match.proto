@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package match;
+
+service MatchEngine {
+  rpc SubmitOrder (OrderRequest) returns (TradeResponse);
+  rpc CancelOrder (CancelRequest) returns (CancelResponse);
+  rpc ModifyOrder (ModifyRequest) returns (ModifyResponse);
+}
+
+// ────────── Order Submission ──────────
+message OrderRequest {
+  optional string orderId = 1;
+  optional string userId = 2;
+  string symbol = 3;
+  double price = 4;
+  double quantity = 5;
+  string direction = 6;
+  optional string ordertype = 7;
+  optional string tif = 8;
+  optional double trigger_price = 9;
+}
+
+// ────────── Trades Returned ──────────
+message Trade {
+  string makerOrderId = 1;
+  string takerOrderId = 2;
+  string symbol = 3;
+  double price = 4;
+  double quantity = 5;
+  string timestamp = 6;
+}
+
+message TradeResponse {
+  repeated Trade trades = 1;
+}
+
+// ────────── Cancel Order ──────────
+message CancelRequest {
+  string symbol = 1;
+  string orderId = 2;
+}
+
+message CancelResponse {
+  bool success = 1;
+}
+
+// ────────── Modify Order ──────────
+message ModifyRequest {
+  optional string orderId = 1;
+  optional string userId = 2;
+  string symbol = 3;
+  double new_price = 4;
+  double new_quantity = 5;
+  string direction = 6;
+}
+
+message ModifyResponse {
+  bool success = 1;
+}

@@ -1,0 +1,6 @@
+{
+  "user_id": "test-user-1",
+  "type": "ledger",
+  "format": "csv",
+  "json_data": "[{\"timestamp\":\"2025-06-16 22:55:00\",\"type\":\"realized_pnl\",\"symbol\":\"BTC-USDT\",\"amount\":300.25},{\"timestamp\":\"2025-06-16 23:00:00\",\"type\":\"funding\",\"symbol\":\"ETH-USDT\",\"amount\":-12.5}]"
+}

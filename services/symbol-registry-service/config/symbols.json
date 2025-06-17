@@ -1,0 +1,18 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "tick_size": 0.5,
+    "price_precision": 1,
+    "max_leverage": 50,
+    "base_currency": "BTC",
+    "quote_currency": "USDT"
+  },
+  {
+    "symbol": "ETHUSDT",
+    "tick_size": 0.1,
+    "price_precision": 2,
+    "max_leverage": 25,
+    "base_currency": "ETH",
+    "quote_currency": "USDT"
+  }
+]

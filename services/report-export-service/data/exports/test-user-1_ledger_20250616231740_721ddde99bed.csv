@@ -1,0 +1,3 @@
+amount,symbol,timestamp,type
+300.25,"BTC-USDT","2025-06-16 22:55:00","realized_pnl"
+-12.5,"ETH-USDT","2025-06-16 23:00:00","funding"

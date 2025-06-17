@@ -1,0 +1,36 @@
+# Build artifacts
+build/
+dist/
+
+# Python virtual environment
+.venv/
+
+# VS Code settings
+.vscode/
+
+# GitHub and DevContainer configs
+.devcontainer/
+.github/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Log and temp files
+*.log
+*.tmp
+*.swp
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Compiled objects
+*.o
+*.out
+*.a
+*.so
+
+# Environment files
+.env
+.env.*
