@@ -9,7 +9,7 @@ public:
     void stop();
 
 private:
-    void listen(const std::string& redisHost, int redisPort);  // 🔧 Update here
+    void listen();
     std::thread listenerThread;
     std::atomic<bool> running{false};
 };

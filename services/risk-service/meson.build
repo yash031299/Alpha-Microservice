@@ -23,7 +23,7 @@ spdlog_dep     = dependency('spdlog')
 json_dep       = dependency('nlohmann_json')
 doctest_dep    = dependency('doctest', required: true, fallback: ['doctest', 'doctest_dep'])
 
-# Prometheus deps are optional for now
+# Prometheus deps are optional
 prometheus_core_dep = dependency('prometheus-cpp', modules: ['prometheus-cpp::core'], required: false)
 prometheus_pull_dep = dependency('prometheus-cpp', modules: ['prometheus-cpp::pull'], required: false)
 
@@ -44,39 +44,14 @@ sources = files(
   'src/health_checker.cpp',
   'src/margin_listener.cpp',
   'src/redis_connection.cpp',
-  'src/liquidation_manager.cpp',
   'src/position_tracker.cpp',
   'src/rms_engine.cpp',
   'src/config_loader.cpp'
 )
 
-# ───── Shared Code (no main) ─────
-shared_sources = files(
-  'src/health_checker.cpp',
-  'src/margin_listener.cpp',
-  'src/redis_connection.cpp',
-  'src/liquidation_manager.cpp',
-  'src/position_tracker.cpp',
-  'src/rms_engine.cpp',
-  'src/config_loader.cpp'
-)
-
-# ───── Main Executable ─────
+# ───── Executable ─────
 executable('risk-service',
   sources,
   include_directories: inc,
   dependencies: all_deps
 )
-
-# ───── Unit Test Executable ─────
-# test_sources = files(
-#   'tests/test_rms.cpp'
-# )
-
-# test_exe = executable('test-risk-service',
-#   test_sources + shared_sources,
-#   include_directories: inc,
-#   dependencies: all_deps + [doctest_dep]
-# )
-
-# test('risk-service-tests', test_exe)

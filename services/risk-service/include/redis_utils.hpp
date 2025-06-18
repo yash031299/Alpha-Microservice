@@ -6,35 +6,40 @@
 #include <spdlog/spdlog.h>
 
 // Fetch latest LTP for a given symbol from Redis
-inline std::optional<double> getLatestLTP(const std::string& symbol, redisContext* ctx) {
+std::optional<double> getLatestLTP(const std::string& symbol, redisContext* ctx) {
     try {
-        if (!ctx) return std::nullopt;
+        std::string key = "TICK:" + symbol;
 
-        std::string streamKey = ConfigLoader::getEnv("LTP_STREAM_KEY", "market_ticks");
+        // First check the key's type to ensure it's a hash
+        redisReply* typeReply = (redisReply*)redisCommand(ctx, "TYPE %s", key.c_str());
+        if (!typeReply || typeReply->type != REDIS_REPLY_STATUS || std::string(typeReply->str) != "hash") {
+            SPDLOG_WARN("🚫 Wrong type for Redis key {}. Expected 'hash', got '{}'", key, typeReply ? typeReply->str : "null");
+            if (typeReply) freeReplyObject(typeReply);
+            return std::nullopt;
+        }
+        freeReplyObject(typeReply);  // Free after successful type check
 
-        redisReply* reply = safeRedisCommand(ctx, "XREVRANGE %s + - COUNT 1", streamKey.c_str());
-        if (!reply || reply->type != REDIS_REPLY_ARRAY || reply->elements == 0) {
-            if (reply) freeReplyObject(reply);
+        // Now it's safe to HGET
+        redisReply* reply = (redisReply*)redisCommand(ctx, "HGET %s price", key.c_str());
+        if (!reply) {
+            SPDLOG_WARN("🚫 No Redis reply for key {}", key);
             return std::nullopt;
         }
 
-        auto fields = reply->element[0]->element[1];
-        double ltp = 0.0;
-
-        for (size_t j = 0; j < fields->elements; j += 2) {
-            std::string key = fields->element[j]->str;
-            std::string val = fields->element[j + 1]->str;
-            if (key == "ltp") {
-                ltp = std::stod(val);
-                break;
-            }
+        if (reply->type != REDIS_REPLY_STRING) {
+            SPDLOG_WARN("🚫 Unexpected reply type for HGET {}. Type = {}", key, reply->type);
+            freeReplyObject(reply);
+            return std::nullopt;
         }
 
+        double ltp = std::stod(reply->str);
+        SPDLOG_INFO("✅ getLatestLTP success. Key = {}, Price = {}", key, ltp);
         freeReplyObject(reply);
-        return ltp > 0.0 ? std::optional<double>{ltp} : std::nullopt;
+        return ltp;
 
     } catch (const std::exception& ex) {
-        SPDLOG_ERROR("getLatestLTP failed: {}", ex.what());
+        SPDLOG_ERROR("❌ Exception in getLatestLTP: {}", ex.what());
         return std::nullopt;
     }
 }
+

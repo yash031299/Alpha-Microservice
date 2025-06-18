@@ -2,7 +2,6 @@
 
 #include "rms/user_state.hpp"
 #include "rms/metrics.hpp"
-#include "liquidation_manager.hpp"
 #include "redis_retry.hpp"
 
 #include <mutex>

@@ -15,7 +15,9 @@ extern ThreadSafeMap<std::string, std::shared_ptr<rms::RMSEngine>> rmsMap;
 
 void MarginListener::start() {
     running = true;
-    listenerThread = std::thread(&MarginListener::listen, this);
+    listenerThread = std::thread([this] { 
+        this->listen(); 
+    });
 }
 
 void MarginListener::stop() {
@@ -27,11 +29,15 @@ void MarginListener::stop() {
 
 void MarginListener::listen() {
     SPDLOG_INFO("📥 Starting MarginListener on QUEUE:MARGIN:CHECK:*");
+    ConfigLoader::loadEnv(".env");
+
 
     redisContext* redis = nullptr;
+
     try {
         std::string redisHost = ConfigLoader::getEnv("REDIS_HOST", "127.0.0.1");
         int redisPort = std::stoi(ConfigLoader::getEnv("REDIS_PORT", "6379"));
+        SPDLOG_INFO("🔌 Connecting to Redis at {}:{}", redisHost, redisPort);
 
         redis = safeRedisConnect(redisHost, redisPort);
         if (!redis || redis->err) {
@@ -40,34 +46,56 @@ void MarginListener::listen() {
             return;
         }
 
+        SPDLOG_INFO("✅ Connected to Redis");
+
         while (running) {
-            redisReply* reply = (redisReply*)redisCommand(redis, "BLPOP QUEUE:MARGIN:CHECK:* 0");
-
-            if (!reply || reply->type != REDIS_REPLY_ARRAY || reply->elements < 2 ||
-                !reply->element[1] || reply->element[1]->type != REDIS_REPLY_STRING || !reply->element[1]->str) {
-                SPDLOG_WARN("⚠️ Invalid Redis reply in margin queue. Retrying...");
-                if (reply) freeReplyObject(reply);
-                std::this_thread::sleep_for(std::chrono::milliseconds(50));
-                continue;
-            }
-
-            std::string userId = reply->element[1]->str;
-            SPDLOG_INFO("🧠 Received margin check trigger for user: {}", userId);
-
             try {
-                auto engineOpt = rmsMap.get(userId);
-                if (engineOpt.has_value()) {
-                    auto& rms = engineOpt.value();
-                    rms->syncMargin();
-                    rms->evaluateRisk();
-                } else {
-                    SPDLOG_WARN("⚠️ RMS not initialized for user: {}", userId);
-                }
-            } catch (const std::exception& ex) {
-                SPDLOG_ERROR("🔥 MarginListener failed for {}: {}", userId, ex.what());
-            }
+                std::string queueList = "QUEUE:MARGIN:CHECK:user-001 QUEUE:MARGIN:CHECK:user-002 QUEUE:MARGIN:CHECK:user-003";
+                redisReply* reply = (redisReply*)redisCommand(redis, "BLPOP %s 0", queueList.c_str());
 
-            freeReplyObject(reply);
+                if (!reply) {
+                    SPDLOG_ERROR("❌ Redis reply is null.");
+                    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                    continue;
+                }
+
+                if (reply->type != REDIS_REPLY_ARRAY || reply->elements < 2) {
+                    SPDLOG_ERROR("❌ Redis reply not array or has <2 elements.");
+                    freeReplyObject(reply);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                    continue;
+                }
+
+                if (!reply->element[1] || reply->element[1]->type != REDIS_REPLY_STRING || !reply->element[1]->str) {
+                    SPDLOG_ERROR("❌ Redis reply element[1] invalid or not string.");
+                    freeReplyObject(reply);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                    continue;
+                }
+
+                std::string userId = reply->element[1]->str;
+                SPDLOG_INFO("🧠 Received margin check trigger for user: {}", userId);
+
+                try {
+                    auto engineOpt = rmsMap.get(userId);
+                    if (engineOpt.has_value()) {
+                        auto& rms = engineOpt.value();
+                        rms->syncMargin();
+                        rms->evaluateRisk();
+                    } else {
+                        SPDLOG_WARN("⚠️ RMS not initialized for user: {}", userId);
+                    }
+                } catch (const std::exception& ex) {
+                    SPDLOG_ERROR("🔥 MarginListener failed for {}: {}", userId, ex.what());
+                }
+
+                freeReplyObject(reply);
+
+            } catch (const std::exception& ex) {
+                SPDLOG_CRITICAL("🔥 Exception inside margin loop: {}", ex.what());
+            } catch (...) {
+                SPDLOG_CRITICAL("🔥 Unknown exception in margin loop");
+            }
         }
 
     } catch (const std::exception& ex) {

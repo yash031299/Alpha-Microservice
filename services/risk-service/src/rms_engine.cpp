@@ -1,7 +1,6 @@
 #include "rms/rms_engine.hpp"
 #include "redis_retry.hpp"
 #include "config_loader.hpp"
-#include "liquidation_manager.hpp"
 #include "rms/metrics.hpp"
 
 #include <spdlog/spdlog.h>
@@ -30,17 +29,36 @@ void RMSEngine::onPriceUpdate(double ltp) {
         redisReply* reply = safeRedisCommand(ctx,
             "HMGET rms:%s:state entryPrice positionSize side leverage walletBalance symbol",
             state_.userId.c_str());
-
+        
         if (reply && reply->type == REDIS_REPLY_ARRAY && reply->elements >= 6) {
-            state_.entryPrice     = std::stod(reply->element[0]->str);
-            state_.positionSize   = std::stod(reply->element[1]->str);
-            state_.side           = static_cast<rms::PositionSide>(std::stoi(reply->element[2]->str));
-            state_.leverage       = std::stod(reply->element[3]->str);
-            state_.walletBalance  = std::stod(reply->element[4]->str);
-            state_.symbol         = reply->element[5]->str;
+            try {
+                bool valid = true;
+                for (int i = 0; i < 6; ++i) {
+                    if (!reply->element[i] || reply->element[i]->type != REDIS_REPLY_STRING || !reply->element[i]->str) {
+                        SPDLOG_WARN("❌ Redis reply element[{}] is null or not a string", i);
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (valid) {
+                    state_.entryPrice     = std::stod(reply->element[0]->str);
+                    state_.positionSize   = std::stod(reply->element[1]->str);
+                    state_.side           = static_cast<rms::PositionSide>(std::stoi(reply->element[2]->str));
+                    state_.leverage       = std::stod(reply->element[3]->str);
+                    state_.walletBalance  = std::stod(reply->element[4]->str);
+                    state_.symbol         = reply->element[5]->str;
+                } else {
+                    SPDLOG_WARN("⚠️ Incomplete or invalid elements in Redis reply for user {}", state_.userId);
+                }
+
+            } catch (const std::exception& ex) {
+                SPDLOG_ERROR("❌ Exception parsing Redis user state for {}: {}", state_.userId, ex.what());
+            }
         } else {
-            SPDLOG_WARN("Incomplete or missing user state for {} in Redis", state_.userId);
+            SPDLOG_WARN("⚠️ Incomplete or missing user state array for {} in Redis", state_.userId);
         }
+
 
         if (reply) freeReplyObject(reply);
         redisFree(ctx);
@@ -90,20 +108,29 @@ void RMSEngine::evaluateRisk() {
 void RMSEngine::checkLiquidation() {
     try {
         SPDLOG_WARN("[{}] ⚠️ Triggering liquidation!", state_.userId);
-        LiquidationManager manager;
 
-        manager.liquidate(state_.userId,
-                          state_.symbol,
-                          state_.positionSize,
-                          static_cast<int>(state_.side),
-                          lastLTP_);
+        std::string redisHost = ConfigLoader::getEnv("REDIS_HOST", "127.0.0.1");
+        int redisPort = std::stoi(ConfigLoader::getEnv("REDIS_PORT", "6379"));
+
+        redisContext* ctx = safeRedisConnect(redisHost, redisPort);
+        if (!ctx || ctx->err) {
+            SPDLOG_ERROR("❌ Failed to connect Redis in checkLiquidation: {}", ctx ? ctx->errstr : "null");
+            if (ctx) redisFree(ctx);
+            return;
+        }
+
+        redisReply* reply = safeRedisCommand(ctx, "LPUSH QUEUE:LIQUIDATE %s", state_.userId.c_str());
+        if (reply) freeReplyObject(reply);
+        redisFree(ctx);
 
         RMSMetrics::get().incrementLiquidation();
+        SPDLOG_WARN("[{}] 🚨 Liquidation pushed to QUEUE:LIQUIDATE", state_.userId);
 
     } catch (const std::exception& ex) {
         SPDLOG_ERROR("❌ checkLiquidation failed for {}: {}", state_.userId, ex.what());
     }
 }
+
 
 void RMSEngine::syncMargin() {
     try {

@@ -4,6 +4,8 @@
 #include "config_loader.hpp"
 #include "margin_listener.hpp"
 #include "redis_utils.hpp"
+#include "redis_circuit.hpp"
+#include "thread_safe_map.hpp"
 
 #include <boost/asio.hpp>
 #include <hiredis/hiredis.h>
@@ -12,41 +14,41 @@
 #include <memory>
 #include <thread>
 #include <chrono>
-#include "redis_circuit.hpp"
-#include "thread_safe_map.hpp"
+#include <csignal>
+#include <atomic>
 
 using boost::asio::steady_timer;
 using namespace std::chrono_literals;
 
+// Globals
 static boost::asio::io_context io;
 static boost::asio::executor_work_guard<boost::asio::io_context::executor_type> work = boost::asio::make_work_guard(io);
-static boost::asio::thread_pool pool(4);
+static std::vector<std::thread> threadPool;
+static std::atomic<bool> running = true;
 
-// Simulated users
 std::vector<std::string> users = {"user-001", "user-002", "user-003"};
-
-// Map: userId → RMSEngine
 ThreadSafeMap<std::string, std::shared_ptr<rms::RMSEngine>> rmsMap;
-
-// LTP cache per symbol
 std::unordered_map<std::string, double> ltpCache;
-
-// Shared Redis context
 redisContext* redisCtx = nullptr;
+RedisCircuitBreaker breaker(3, 15);
 
-RedisCircuitBreaker breaker(3, 15);  // 3 failures trigger 15s pause
+// Graceful shutdown handler
+void handleSignal(int signal) {
+    SPDLOG_WARN("🛑 Signal received. Initiating graceful shutdown...");
+    running = false;
+    io.stop();  // stop all timers
+}
 
-
+// Batched RMS loop
 void scheduleBatchRMSLoop() {
     auto timer = std::make_shared<steady_timer>(io, 1s);
     timer->async_wait([timer](const boost::system::error_code& ec) {
-        if (ec) return;
+        if (ec || !running) return;
 
         try {
             if (breaker.isOpen()) {
                 SPDLOG_WARN("⏸️ Skipping RMS: Redis circuit open.");
             } else {
-                // Ensure redisCtx is valid before using
                 if (!redisCtx || redisCtx->err) {
                     redisCtx = safeRedisConnect("127.0.0.1", 6379);
                     if (!redisCtx || redisCtx->err) {
@@ -72,10 +74,10 @@ void scheduleBatchRMSLoop() {
                         cached = newLtp;
 
                         rmsMap.forEach([&newLtp](const std::string& userId, const std::shared_ptr<rms::RMSEngine>& engine) {
-                            boost::asio::post(pool, [engine, newLtp]() {
+                            boost::asio::post(io, [engine, newLtp]() {
                                 try {
                                     engine->onPriceUpdate(newLtp);
-                                    engine->syncMargin();  // deduped inside
+                                    engine->syncMargin();
                                 } catch (const std::exception& ex) {
                                     SPDLOG_ERROR("🧨 RMS update failed for user {}: {}", engine->getUserId(), ex.what());
                                 }
@@ -88,21 +90,25 @@ void scheduleBatchRMSLoop() {
             SPDLOG_ERROR("❌ Batch RMS loop error: {}", ex.what());
         }
 
-        timer->expires_after(1s);
-        scheduleBatchRMSLoop();  // reschedule
+        if (running) {
+            timer->expires_after(1s);
+            scheduleBatchRMSLoop();  // Reschedule
+        }
     });
 }
 
-
+// Main
 int main() {
     try {
         SPDLOG_INFO("🚀 Starting RMS Risk Service...");
 
+        std::signal(SIGINT, handleSignal);
+
         ConfigLoader::loadEnv(".env");
+
         double fallbackMarginRatio = std::stod(ConfigLoader::getEnv("DEFAULT_MARGIN_RATIO", "0.05"));
         double fallbackLTP = std::stod(ConfigLoader::getEnv("DEFAULT_LTP", "26000"));
 
-        // Initial Redis connection
         redisCtx = safeRedisConnect("127.0.0.1", 6379);
         if (!redisCtx || redisCtx->err) {
             SPDLOG_CRITICAL("❌ Failed to connect to Redis. Exiting.");
@@ -110,7 +116,6 @@ int main() {
         }
 
         MarginListener marginListener;
-
         for (const auto& userId : users) {
             rms::UserState state;
             state.userId = userId;
@@ -118,10 +123,8 @@ int main() {
             rmsMap.insert(userId, std::make_shared<rms::RMSEngine>(state));
         }
 
-        // Start batched RMS loop
         scheduleBatchRMSLoop();
 
-        // Start margin listener
         try {
             marginListener.start();
         } catch (const std::exception& e) {
@@ -130,10 +133,28 @@ int main() {
             SPDLOG_ERROR("❌ Unknown fatal error in MarginListener");
         }
 
-        // Thread pool
-        for (int i = 0; i < 4; ++i)
-            boost::asio::post(pool, [] { io.run(); });
+        // Launch threads
+        for (int i = 0; i < 4; ++i) {
+            threadPool.emplace_back([] {
+                try {
+                    io.run();
+                } catch (const std::exception& e) {
+                    SPDLOG_ERROR("🧵 IO thread crashed: {}", e.what());
+                }
+            });
+        }
 
+        // Wait for threads to finish
+        for (auto& t : threadPool)
+            if (t.joinable()) t.join();
+
+        // Cleanup
+        if (redisCtx) {
+            redisFree(redisCtx);
+            SPDLOG_INFO("🧹 Redis context cleaned up.");
+        }
+
+        SPDLOG_INFO("👋 Graceful shutdown complete.");
         return 0;
 
     } catch (const std::exception& ex) {

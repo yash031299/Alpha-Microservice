@@ -1,22 +1,792 @@
 [
   {
-    "symbol": "BTCUSDT",
-    "tick_size": 0.5,
-    "precision": 1,
-    "max_leverage": 200,
-    "initial_margin": 0.05,
-    "maintenance_margin": 0.02,
+    "symbol": "BTCUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
     "base_currency": "BTC",
-    "quote_currency": "USDT"
+    "quote_currency": "USD"
   },
   {
-    "symbol": "ETHUSDT",
-    "tick_size": 0.1,
-    "precision": 2,
-    "max_leverage": 200,
-    "initial_margin": 0.05,
-    "maintenance_margin": 0.02,
+    "symbol": "ETHUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
     "base_currency": "ETH",
-    "quote_currency": "USDT"
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "SOLUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SOL",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "XRPUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "XRP",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1000PEPEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "PEPE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "DOGEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "DOGE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "SUIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SUI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "UNIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "UNI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "AAVEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "AAVE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "WIFUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "WIF",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ADAUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ADA",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "BCHUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "BCH",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "BNBUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "BNB",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ENAUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ENA",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "LINKUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "LINK",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "AVAXUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "AVAX",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "OPUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "OP",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "WLDUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "WLD",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "NEARUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "NEAR",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "TAOUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "TAO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "LTCUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "LTC",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "TRXUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "TRX",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "NEIROUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "NEIRO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "TIAUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "TIA",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ETHFIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ETHFI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "DOTUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "DOT",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "MKRUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "MKR",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ONDOUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ONDO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1000SHIBUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SHIB",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ARBUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ARB",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "SEIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SEI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "INJUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "INJ",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "FETUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "FET",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "TRBUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "TRB",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "JTOUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "JTO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "LDOUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "LDO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "POPCATUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "POPCAT",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "GALAUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "GALA",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ETCUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ETC",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "PENDLEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "PENDLE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "APTUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "APT",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1000BONKUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "BONK",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "TONUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "TON",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "DYDXUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "DYDX",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ORDIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ORDI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ATOMUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ATOM",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "IOUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "IO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "OMUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "OM",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ICPUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ICP",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1000FLOKIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "FLOKI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "PEOPLEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "PEOPLE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ENSUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ENS",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "RENDERUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "RENDER",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "BOMEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "BOME",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1000SATSUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SATS",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ZROUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ZRO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "STRKUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "STRK",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1MBABYDOGEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "BABYDOGE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "STXUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "STX",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "RUNEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "RUNE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "MEWUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "MEW",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "NEIROETHUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "NEIROETH",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "DOGSUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "DOGS",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "NOTUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "NOT",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "GMTUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "GMT",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "RPLUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "RPL",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "JASMYUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "JASMY",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "SAGAUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SAGA",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "RAREUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "RARE",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "BIGTIMEUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "BIGTIME",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "SUPERUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SUPER",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "QUICKUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "QUICK",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "AEVOUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "AEVO",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "COTIUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "COTI",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "LUNA2USD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "LUNA2",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "1000RATSUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "RATS",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "ARPAUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "ARPA",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "SUNUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "SUN",
+    "quote_currency": "USD"
+  },
+  {
+    "symbol": "RDNTUSD",
+    "tick_size": "",
+    "precision": "",
+    "max_leverage": "",
+    "initial_margin": "",
+    "maintenance_margin": "",
+    "base_currency": "RDNT",
+    "quote_currency": "USD"
   }
 ]
