@@ -5,10 +5,11 @@
 #include <fstream>
 #include <cstdlib>
 #include <stdexcept>
-
+#include "config_loader.hpp"
 #include "controller.hpp"
 #include "symbol_client.hpp"
 #include "user_client.hpp"
+#include "risk_client.hpp"
 #include "validator.hpp"
 #include "grpc_client.hpp"
 #include "redis_publisher.hpp"
@@ -21,41 +22,18 @@ void setupLogging() {
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
 }
 
-void loadEnv(const std::string& path) {
-    std::ifstream file(path);
-    if (!file.is_open()) {
-        throw std::runtime_error("❌ Could not open .env file");
-    }
-
-    std::string line;
-    while (std::getline(file, line)) {
-        if (line.empty() || line[0] == '#') continue;
-        size_t eq = line.find('=');
-        if (eq == std::string::npos) continue;
-        std::string key = line.substr(0, eq);
-        std::string value = line.substr(eq + 1);
-        setenv(key.c_str(), value.c_str(), 1);
-    }
-}
-
-std::string getEnvOrThrow(const std::string& key) {
-    const char* val = std::getenv(key.c_str());
-    if (!val) throw std::runtime_error("Missing environment variable: " + key);
-    return std::string(val);
-}
-
 int main() {
     try {
         setupLogging();
-        loadEnv(".env");
+        ConfigLoader::load();
 
         // Read env
-        const std::string order_port  = getEnvOrThrow("ORDER_SERVICE_PORT");
-        const std::string exec_host   = getEnvOrThrow("EXECUTION_SERVICE_HOST");
-        const std::string symbol_host = getEnvOrThrow("SYMBOL_SERVICE_HOST");
-        const std::string user_host   = getEnvOrThrow("USER_SERVICE_HOST");
-        const std::string redis_host  = getEnvOrThrow("REDIS_HOST");
-        int redis_port                = std::stoi(getEnvOrThrow("REDIS_PORT"));
+        const std::string order_port  = ConfigLoader::get("ORDER_SERVICE_PORT");
+        const std::string exec_host   = ConfigLoader::get("EXECUTION_SERVICE_HOST");
+        const std::string symbol_host = ConfigLoader::get("SYMBOL_SERVICE_HOST");
+        const std::string user_host   = ConfigLoader::get("USER_SERVICE_HOST");
+        const std::string redis_host  = ConfigLoader::get("REDIS_HOST");
+        int redis_port                = std::stoi(ConfigLoader::get("REDIS_PORT"));
 
         SPDLOG_INFO("✅ Environment loaded");
         SPDLOG_INFO("🔗 Connecting to symbol: {}, user: {}, exec: {}", symbol_host, user_host, exec_host);
@@ -70,6 +48,8 @@ int main() {
         auto userClient   = std::make_shared<UserClient>(userChannel);
         auto execClient   = std::make_shared<ExecutionClient>(execChannel);
         auto redisPublisher = std::make_shared<RedisPublisher>(redis_host, redis_port, "FAILED_ORDERS");
+        auto riskClient = std::make_shared<RiskClient>(redis_host, redis_port);
+
 
         // Create validator
         auto validator = std::make_shared<Validator>(symbolClient, userClient);
@@ -78,7 +58,7 @@ int main() {
         auto metrics = Metrics::init();  // starts on :8081
 
         // Setup controller
-        auto controller = std::make_unique<OrderController>(validator, execClient, redisPublisher, metrics);
+        auto controller = std::make_unique<OrderController>(validator, execClient, redisPublisher, metrics, riskClient);
 
         // gRPC server
         grpc::ServerBuilder builder;

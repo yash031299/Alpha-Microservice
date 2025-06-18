@@ -6,6 +6,7 @@
 #include "validator.hpp"
 #include "grpc_client.hpp"
 #include "redis_publisher.hpp"
+#include "risk_client.hpp"
 #include "metrics.hpp"
 
 class OrderController final : public order::OrderService::Service {
@@ -13,7 +14,8 @@ public:
     OrderController(std::shared_ptr<Validator> validator,
                     std::shared_ptr<ExecutionClient> exec_client,
                     std::shared_ptr<RedisPublisher> redis_publisher,
-                    std::shared_ptr<Metrics> metrics);
+                    std::shared_ptr<Metrics> metrics,
+                    std::shared_ptr<RiskClient> risk_client);
 
     // gRPC method overrides
     grpc::Status SubmitOrder(grpc::ServerContext*,
@@ -37,4 +39,5 @@ private:
     std::shared_ptr<ExecutionClient> exec_client_;
     std::shared_ptr<RedisPublisher> redis_publisher_;
     std::shared_ptr<Metrics> metrics_;
+    std::shared_ptr<RiskClient> riskClient_;
 };

@@ -38,8 +38,10 @@ TEST_CASE("OrderController: handles SubmitOrder") {
     auto exec = std::make_shared<FakeExecClient>();
     auto redis = std::make_shared<FakeRedisPublisher>();
     auto metrics = Metrics::init();
+    auto riskClient = std::make_shared<RiskClient>("127.0.0.1", 6379);
 
-    OrderController controller(validator, exec, redis, metrics);
+    OrderController controller(validator, exec, redis, metrics, riskClient);
+
 
     order::OrderRequest request;
     request.set_user_id("u1");

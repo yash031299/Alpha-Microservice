@@ -8,11 +8,13 @@
 OrderController::OrderController(std::shared_ptr<Validator> validator,
                                  std::shared_ptr<ExecutionClient> exec_client,
                                  std::shared_ptr<RedisPublisher> redis_publisher,
-                                 std::shared_ptr<Metrics> metrics)
+                                 std::shared_ptr<Metrics> metrics,
+                                 std::shared_ptr<RiskClient> risk_client)
     : validator_(std::move(validator)),
       exec_client_(std::move(exec_client)),
       redis_publisher_(std::move(redis_publisher)),
-      metrics_(std::move(metrics)) {}
+      metrics_(std::move(metrics)),
+      riskClient_(std::move(risk_client)) {}
 
 
 grpc::Status OrderController::SubmitOrder(grpc::ServerContext*,
@@ -28,6 +30,22 @@ grpc::Status OrderController::SubmitOrder(grpc::ServerContext*,
             response->set_message("Validation failed");
             return grpc::Status::OK;
         }
+
+        if (!riskClient_->checkMargin(request->user_id(), nlohmann::json{
+            {"userId", request->user_id()},
+                {"symbol", request->symbol()},
+                {"price", request->price()},
+                {"quantity", request->quantity()},
+                {"side", request->side()},
+                {"orderType", request->ordertype()},
+            
+            })) {
+            metrics_->rejectedOrders->Increment();
+            response->set_status("REJECTED");
+            response->set_message("Rejected by risk engine");
+            return grpc::Status::OK;
+        }
+
 
         auto result = exec_client_->submitOrder(*request);
         *response = result;

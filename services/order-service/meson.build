@@ -54,7 +54,11 @@ sources = files(
   'src/user.pb.cc',
   'src/user.grpc.pb.cc',
   'src/symbol.pb.cc',
-  'src/symbol.grpc.pb.cc'
+  'src/symbol.grpc.pb.cc',
+  'src/order_handler.cpp',
+  'src/risk_client.cpp',
+  'src/redis_client.cpp',
+  'src/config_loader.cpp'
 )
 
 # ───── Shared Source Files (without main.cpp) ─────
@@ -71,7 +75,11 @@ shared_sources = files(
   'src/user.pb.cc',
   'src/user.grpc.pb.cc',
   'src/symbol.pb.cc',
-  'src/symbol.grpc.pb.cc'
+  'src/symbol.grpc.pb.cc',
+  'src/order_handler.cpp',
+  'src/risk_client.cpp',
+  'src/redis_client.cpp',
+  'src/config_loader.cpp'
 )
 
 # ───── Main Executable ─────
