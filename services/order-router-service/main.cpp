@@ -1,10 +1,11 @@
 #include "order_router.hpp"
-#include "grpc_client.hpp"
-#include "redis_client.hpp"
 #include <csignal>
 #include <iostream>
 #include <memory>
 #include <spdlog/spdlog.h>
+#include "grpc_client.hpp"
+#include "match_engine_client.hpp"
+#include "rms_client.hpp"
 
 std::atomic<bool> stopFlag = false;
 
@@ -16,38 +17,29 @@ void signalHandler(int signal) {
 int main() {
     SPDLOG_INFO("🚀 Starting order-router-service...");
 
-    // Step 1: Register signal handlers
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
 
     try {
-        // Step 2: Initialize Redis client
-        auto redisClient = std::make_shared<RedisClient>("127.0.0.1", 6379);
-        if (!redisClient->isConnected()) {
-            SPDLOG_CRITICAL("❌ Failed to connect to Redis");
-            return EXIT_FAILURE;
-        }
+        std::string redis_host = std::getenv("REDIS_HOST") ? std::getenv("REDIS_HOST") : "127.0.0.1";
+        int redis_port = std::getenv("REDIS_PORT") ? std::stoi(std::getenv("REDIS_PORT")) : 6379;
 
-        // Step 3: Initialize gRPC clients
-        auto matchEngineClient = std::make_shared<MatchEngineClient>("localhost:50051");
-        auto rmsClient = std::make_shared<RMSClient>("localhost:50052");
+        auto matchClient = std::make_shared<MatchEngineClient>("localhost:50061");  // or use ENV
+        auto rmsClient = std::make_shared<RMSClient>("localhost:50052");           // or use ENV
 
-        // Step 4: Start order router
-        OrderRouter router(redisClient, matchEngineClient, rmsClient);
+        OrderRouterService router(redis_host, redis_port, matchClient, rmsClient);
         router.start();
 
-        // Step 5: Run until shutdown signal
         while (!stopFlag) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
 
-        // Step 6: Graceful shutdown
         router.stop();
         SPDLOG_INFO("✅ order-router-service shut down cleanly.");
         return 0;
 
     } catch (const std::exception& ex) {
-        SPDLOG_CRITICAL("💥 Unhandled exception in main(): {}", ex.what());
+        SPDLOG_CRITICAL("💥 Fatal error: {}", ex.what());
         return EXIT_FAILURE;
     } catch (...) {
         SPDLOG_CRITICAL("💥 Unknown fatal error in main()");

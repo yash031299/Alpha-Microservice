@@ -1,6 +1,7 @@
 #include "grpc_client.hpp"
 #include <rapidjson/document.h>
 #include <spdlog/spdlog.h>
+#include <rapidjson/document.h>
 
 ExecutionGRPCClient::ExecutionGRPCClient(const std::string& target) {
     channel = grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
@@ -12,7 +13,7 @@ bool ExecutionGRPCClient::sendOrderFromJson(const std::string& json) {
     doc.Parse(json.c_str());
 
     if (doc.HasParseError()) {
-        SPD_ERROR("Invalid JSON format");
+        SPDLOG_ERROR("Invalid JSON format");
         return false;
     }
 
@@ -31,10 +32,10 @@ bool ExecutionGRPCClient::sendOrderFromJson(const std::string& json) {
     grpc::Status status = stub->SubmitOrder(&ctx, req, &res);
 
     if (!status.ok()) {
-        SPD_ERROR("gRPC failed: {}", status.error_message());
+        SPDLOG_ERROR("gRPC failed: {}", status.error_message());
         return false;
     }
 
-    SPD_INFO("gRPC success: {} - {}", res.status(), res.message());
+    SPDLOG_INFO("gRPC success: {} - {}", res.status(), res.message());
     return res.status() == "ACCEPTED";
 }

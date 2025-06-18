@@ -1,16 +1,22 @@
 #pragma once
 
-#include "user_manage.h"
 #include <memory>
 #include <string>
 #include <atomic>
 #include <thread>
 #include <hiredis/hiredis.h>
 
+class MatchEngineClient;
+class RMSClient;
+
 class OrderRouterService {
 public:
-    OrderRouterService(std::shared_ptr<userManager> userMng);
+    OrderRouterService(const std::string& redis_host, int redis_port,
+                       std::shared_ptr<MatchEngineClient> matchClient,
+                       std::shared_ptr<RMSClient> rmsClient);
+
     ~OrderRouterService();
+
     void start();
     void stop();
 
@@ -19,12 +25,13 @@ private:
     void processOrder(const std::string& json);
     std::string getEnvOrDefault(const std::string& key, const std::string& defaultVal);
 
-    std::shared_ptr<userManager> userMng;
+    std::shared_ptr<MatchEngineClient> matchClient_;
+    std::shared_ptr<RMSClient> rmsClient_;
 
-    redisContext* redis;
-    std::atomic<bool> running;
-    std::thread listenerThread;
+    redisContext* redis_;
+    std::atomic<bool> running_;
+    std::thread listenerThread_;
 
-    std::string redisQueueName;
-    int redisTimeout;
+    std::string redisQueueName_;
+    int redisTimeout_;
 };
