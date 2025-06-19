@@ -16,6 +16,8 @@ public:
 
     double getBalance(const std::string& userId) const;
 
+    std::shared_ptr<RedisSafeClient> getRedis() const;
+    
 private:
     std::shared_ptr<RedisSafeClient> redis_;
     mutable std::mutex mutex_;

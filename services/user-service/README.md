@@ -8,11 +8,12 @@ The `user-service` manages **user wallet balances**, **positions**, and handles 
 
 ## Responsibilities
 
-- Load and maintain user wallet and position data from Redis
-- Perform periodic risk calculations (margin, unrealized PnL)
-- Calculate liquidation prices for margin positions
-- Initiate liquidation when user's margin falls below thresholds
-- Periodically flush updates to Redis
+- Load and maintain user wallet balances from Redis
+- Load and maintain user metadata (KYC, leverage, risk tier)
+- Provide gRPC APIs for wallet balance and metadata access
+- Apply wallet delta updates (margin funding, PnL)
+- Emit margin check events to Redis when wallet changes
+- Periodically flush wallet state back to Redis
 
 ---
 
@@ -21,37 +22,37 @@ The `user-service` manages **user wallet balances**, **positions**, and handles 
 1. **Bootstrapping**
 
    - Loads wallet balances and user metadata from Redis.
-   - Initializes thread pool for risk calculation.
+   - Starts Redis subscriber for `MARGIN_UPDATES` channel.
+   - Starts flush scheduler to persist updated balances.
 
-2. **Scheduler**
+2. **Wallet Update API**
 
-   - Every 500ms, `calculation()` is triggered in the background.
-   - This updates margin status and evaluates liquidation conditions.
+   - gRPC endpoint `UpdateWallet()` applies balance delta.
+   - Emits `QUEUE:MARGIN:CHECK:{user_id}` to Redis for downstream risk-service to verify equity and initiate liquidation if needed.
 
-3. **Liquidation Trigger**
+3. **Margin Listener**
 
-   - If a user's equity falls below maintenance margin × (1 + buffer),
-     liquidation starts in `userManager::liquidation(user&)`.
+   - Subscribes to `MARGIN_UPDATES` Redis Pub/Sub channel.
+   - Applies margin deltas (e.g., realized PnL, funding) to in-memory wallet.
 
-4. **Position Sorting**
+4. **Scheduler**
 
-   - Positions are sorted by worst PnL (lowest first).
-   - Liquidation occurs until user margin is healthy again.
+   - Every 5 seconds, all in-memory balances are flushed back to Redis using `HSET`.
 
-5. **Liquidation Price Calculation**
-   - Uses:
-     ```
-     liq_price = avg_price ± loss / quantity
-     ```
-     Based on leverage, notional, and MMR (maintenance margin rate).
+5. **Healthcheck**
+
+   - Logs service liveness every 15 seconds using `spdlog`.
 
 ---
 
 ## Redis Keys Used
 
-- `USER:{user_id}`: Contains wallet and position strings
-- `pos:{symbol}` fields store position tuples like:
-  quantity, avg_price, leverage, notional, pnl, liquidation_price
+- `user_wallets`: Redis hash storing wallet balances, keyed by `user_id`.
+- `user_metadata`: Redis hash with values like:
+  ```json
+  "test-user-1": "kyc:true,risk:high,lev:50"
+  ```
+- `Emits margin check on`: LPUSH QUEUE:MARGIN:CHECK:`user_id` `<user_id>`
 
 ## Config/Dependencies
 

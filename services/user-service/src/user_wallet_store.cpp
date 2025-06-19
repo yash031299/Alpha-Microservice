@@ -59,3 +59,9 @@ double UserWalletStore::getBalance(const std::string& userId) const {
     auto it = walletMap_.find(userId);
     return (it != walletMap_.end()) ? it->second : 0.0;
 }
+
+
+std::shared_ptr<RedisSafeClient> UserWalletStore::getRedis() const {
+    return redis_;
+}
+

@@ -50,7 +50,7 @@ void MarginListener::listen() {
 
         while (running) {
             try {
-                std::string queueList = "QUEUE:MARGIN:CHECK:user-001 QUEUE:MARGIN:CHECK:user-002 QUEUE:MARGIN:CHECK:user-003";
+                std::string queueList = "QUEUE:MARGIN:CHECK";
                 redisReply* reply = (redisReply*)redisCommand(redis, "BLPOP %s 0", queueList.c_str());
 
                 if (!reply) {
@@ -72,7 +72,7 @@ void MarginListener::listen() {
                     std::this_thread::sleep_for(std::chrono::milliseconds(50));
                     continue;
                 }
-
+                
                 std::string userId = reply->element[1]->str;
                 SPDLOG_INFO("🧠 Received margin check trigger for user: {}", userId);
 
