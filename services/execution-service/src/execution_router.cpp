@@ -6,10 +6,12 @@
 #include "pnl_client.hpp"
 #include "user_client.hpp"
 #include <spdlog/spdlog.h>
+#include "redis_update.hpp"
 
 static int total_orders = 0;
 static int successful_executions = 0;
 static int rejected_orders = 0;
+static RedisConnectionPool updatePool;
 
 
 int parseSide(const std::string& sideStr) {
@@ -66,11 +68,18 @@ order::OrderResponse ExecutionRouter::route(const order::OrderRequest& req) {
 
         // Redis + PnL only if successful
         if (resp.status() == "ACCEPTED") {
-            ++successful_executions;
             double exec_price = req.ordertype() == "LIMIT" ? req.price() :
                                 req.ordertype() == "MARKET" ? req.ltp() :
                                 req.stopprice();
 
+            updatePool.enqueueUpdate(
+                req.order_id(),
+                "FILLED",
+                req.quantity(),  // Assume full fill for now
+                exec_price
+            );
+            ++successful_executions;
+            
             // Calculate fee
             double fee_bps = std::getenv("EXEC_FEE_BPS") ? std::stod(std::getenv("EXEC_FEE_BPS")) : 10.0;
             double fee = (exec_price * req.quantity()) * (fee_bps / 10000.0);
@@ -89,6 +98,7 @@ order::OrderResponse ExecutionRouter::route(const order::OrderRequest& req) {
             std::string user_host = std::getenv("USER_GRPC_ADDR") ? std::getenv("USER_GRPC_ADDR") : "localhost:50052";
             UserWalletClient wallet(grpc::CreateChannel(user_host, grpc::InsecureChannelCredentials()));
             wallet.updateWallet(req.user_id(), -fee, "execution_fee");
+            
         } else {
             ++rejected_orders;
 

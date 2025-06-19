@@ -3,11 +3,18 @@ project('risk-service', 'cpp',
   default_options: ['cpp_std=c++20']
 )
 
-add_project_arguments('-w', language: 'cpp')  # Disable all warnings
+add_project_arguments('-w', language: 'cpp')  # Disable warnings
 
 cc = meson.get_compiler('cpp')
 
-# ───── Dependencies ─────
+# ───── Core Dependencies ─────
+spdlog_dep     = dependency('spdlog')
+json_dep       = dependency('nlohmann_json')
+grpc_dep       = dependency('grpc++', required: true)
+protobuf_dep   = dependency('protobuf', required: true)
+doctest_dep    = dependency('doctest', required: true, fallback: ['doctest', 'doctest_dep'])
+
+# ───── Boost & Hiredis (Manual) ─────
 boost_inc = include_directories('/opt/homebrew/opt/boost/include')
 boost_dep = declare_dependency(
   include_directories: boost_inc,
@@ -19,23 +26,30 @@ redis_dep = declare_dependency(
   link_args: ['-L/opt/homebrew/lib', '-lhiredis']
 )
 
-spdlog_dep     = dependency('spdlog')
-json_dep       = dependency('nlohmann_json')
-doctest_dep    = dependency('doctest', required: true, fallback: ['doctest', 'doctest_dep'])
+# ───── gRPC Link Fix (Manual) ─────
+grpc_fix_dep = declare_dependency(
+  link_args: ['-L/opt/homebrew/lib', '-lgrpc++', '-lgrpc', '-lgpr', '-lprotobuf']
+)
 
-# Prometheus deps are optional
+# ───── Prometheus (Optional) ─────
 prometheus_core_dep = dependency('prometheus-cpp', modules: ['prometheus-cpp::core'], required: false)
 prometheus_pull_dep = dependency('prometheus-cpp', modules: ['prometheus-cpp::pull'], required: false)
 
+# ───── Final All Dependencies ─────
 all_deps = [
   boost_dep,
   redis_dep,
   spdlog_dep,
   json_dep,
+  grpc_dep,
+  grpc_fix_dep,
+  protobuf_dep,
+  doctest_dep,
   prometheus_core_dep,
   prometheus_pull_dep
 ]
 
+# ───── Includes ─────
 inc = include_directories('include', 'include/rms')
 
 # ───── Source Files ─────
@@ -46,10 +60,13 @@ sources = files(
   'src/redis_connection.cpp',
   'src/position_tracker.cpp',
   'src/rms_engine.cpp',
-  'src/config_loader.cpp'
+  'src/config_loader.cpp',
+  'src/symbol_client.cpp',
+  'src/symbol.pb.cc',
+  'src/symbol.grpc.pb.cc'
 )
 
-# ───── Executable ─────
+# ───── Build Executable ─────
 executable('risk-service',
   sources,
   include_directories: inc,

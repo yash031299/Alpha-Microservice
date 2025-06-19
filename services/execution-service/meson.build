@@ -33,21 +33,20 @@ grpc_reflection_dep = declare_dependency(
 # ───── Source Files ─────
 srcs = files(
   'src/main.cpp',
-  'src/grpc_server.cpp',
   'src/execution_router.cpp',
   'src/executor_limit.cpp',
   'src/executor_market.cpp',
   'src/executor_sl.cpp',
   'src/logger.cpp',
-  'src/redis_publisher.cpp',
   'src/pnl_client.cpp',
   'src/user_client.cpp',
   'src/order.pb.cc',
-  'src/order.grpc.pb.cc',
   'src/pnl.pb.cc',
   'src/pnl.grpc.pb.cc',
   'src/user.pb.cc',
-  'src/user.grpc.pb.cc'
+  'src/user.grpc.pb.cc',
+  'src/redis_publisher.cpp',
+  'src/redis_update.cpp'
 )
 
 # ───── Include Paths ─────

@@ -9,7 +9,20 @@
 #include <optional>
 namespace rms {
 RMSEngine::RMSEngine(const UserState& state)
-    : state_(state), lastLTP_(0.0), marginUsed_(0.0), unrealizedPnL_(0.0) {}
+    : state_(state), lastLTP_(0.0), marginUsed_(0.0), unrealizedPnL_(0.0), mmr_(0.05) {
+        std::string symbolServiceAddr = ConfigLoader::getEnv("SYMBOL_REGISTRY_ADDR", "localhost:6000");
+        symbol_client_ = std::make_unique<SymbolRegistryClient>(symbolServiceAddr);
+
+        if (!state_.symbol.empty()) {
+            auto info = symbol_client_->getSymbolInfo(state_.symbol);
+            if (info) {
+                mmr_ = info->maintenance_margin;
+                SPDLOG_INFO("[{}] ✅ Loaded MMR = {} from symbol registry", state_.symbol, mmr_);
+            } else {
+                SPDLOG_WARN("[{}] ⚠️ Failed to fetch symbol info, using default mmr = {}", state_.symbol, mmr_);
+            }
+        }
+    }
 
 void RMSEngine::onPriceUpdate(double ltp) {
     std::lock_guard<std::mutex> guard(lock_);
@@ -87,7 +100,7 @@ void RMSEngine::calculatePnL() {
 
 void RMSEngine::evaluateRisk() {
     try {
-        double maintMarginRate = 0.05;
+        double maintMarginRate = mmr_;
         double equity = state_.walletBalance + unrealizedPnL_;
         double threshold = marginUsed_ * maintMarginRate;
 

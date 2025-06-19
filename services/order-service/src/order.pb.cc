@@ -70,6 +70,9 @@ inline constexpr OrderRequest::Impl_::Impl_(
         ordertype_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
+        order_id_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
         price_{0},
         quantity_{0},
         ltp_{0},
@@ -294,6 +297,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::order::OrderRequest, _impl_.ltp_),
         PROTOBUF_FIELD_OFFSET(::order::OrderRequest, _impl_.stopprice_),
         PROTOBUF_FIELD_OFFSET(::order::OrderRequest, _impl_.leverage_),
+        PROTOBUF_FIELD_OFFSET(::order::OrderRequest, _impl_.order_id_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::order::OrderResponse, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -370,13 +374,13 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::order::OrderRequest)},
-        {17, -1, -1, sizeof(::order::OrderResponse)},
-        {27, -1, -1, sizeof(::order::HealthRequest)},
-        {35, -1, -1, sizeof(::order::HealthResponse)},
-        {44, -1, -1, sizeof(::order::CancelRequest)},
-        {55, -1, -1, sizeof(::order::CancelResponse)},
-        {65, -1, -1, sizeof(::order::ModifyRequest)},
-        {78, -1, -1, sizeof(::order::ModifyResponse)},
+        {18, -1, -1, sizeof(::order::OrderResponse)},
+        {28, -1, -1, sizeof(::order::HealthRequest)},
+        {36, -1, -1, sizeof(::order::HealthResponse)},
+        {45, -1, -1, sizeof(::order::CancelRequest)},
+        {56, -1, -1, sizeof(::order::CancelResponse)},
+        {66, -1, -1, sizeof(::order::ModifyRequest)},
+        {79, -1, -1, sizeof(::order::ModifyResponse)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::order::_OrderRequest_default_instance_._instance,
@@ -390,33 +394,34 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_order_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\013order.proto\022\005order\"\243\001\n\014OrderRequest\022\017\n"
+    "\n\013order.proto\022\005order\"\265\001\n\014OrderRequest\022\017\n"
     "\007user_id\030\001 \001(\t\022\016\n\006symbol\030\002 \001(\t\022\r\n\005price\030"
     "\003 \001(\001\022\020\n\010quantity\030\004 \001(\001\022\014\n\004side\030\005 \001(\t\022\021\n"
     "\tordertype\030\006 \001(\t\022\013\n\003ltp\030\007 \001(\001\022\021\n\tstoppri"
-    "ce\030\010 \001(\001\022\020\n\010leverage\030\t \001(\001\"0\n\rOrderRespo"
-    "nse\022\016\n\006status\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\"\017\n\r"
-    "HealthRequest\" \n\016HealthResponse\022\016\n\006statu"
-    "s\030\001 \001(\t\"B\n\rCancelRequest\022\017\n\007user_id\030\001 \001("
-    "\t\022\020\n\010order_id\030\002 \001(\t\022\016\n\006symbol\030\003 \001(\t\"1\n\016C"
-    "ancelResponse\022\016\n\006status\030\001 \001(\t\022\017\n\007message"
-    "\030\002 \001(\t\"k\n\rModifyRequest\022\017\n\007user_id\030\001 \001(\t"
-    "\022\020\n\010order_id\030\002 \001(\t\022\016\n\006symbol\030\003 \001(\t\022\021\n\tne"
-    "w_price\030\004 \001(\001\022\024\n\014new_quantity\030\005 \001(\001\"1\n\016M"
-    "odifyResponse\022\016\n\006status\030\001 \001(\t\022\017\n\007message"
-    "\030\002 \001(\t2\374\001\n\014OrderService\0228\n\013SubmitOrder\022\023"
-    ".order.OrderRequest\032\024.order.OrderRespons"
-    "e\022:\n\013CheckHealth\022\024.order.HealthRequest\032\025"
-    ".order.HealthResponse\022:\n\013CancelOrder\022\024.o"
-    "rder.CancelRequest\032\025.order.CancelRespons"
-    "e\022:\n\013ModifyOrder\022\024.order.ModifyRequest\032\025"
-    ".order.ModifyResponseb\006proto3"
+    "ce\030\010 \001(\001\022\020\n\010leverage\030\t \001(\001\022\020\n\010order_id\030\n"
+    " \001(\t\"0\n\rOrderResponse\022\016\n\006status\030\001 \001(\t\022\017\n"
+    "\007message\030\002 \001(\t\"\017\n\rHealthRequest\" \n\016Healt"
+    "hResponse\022\016\n\006status\030\001 \001(\t\"B\n\rCancelReque"
+    "st\022\017\n\007user_id\030\001 \001(\t\022\020\n\010order_id\030\002 \001(\t\022\016\n"
+    "\006symbol\030\003 \001(\t\"1\n\016CancelResponse\022\016\n\006statu"
+    "s\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\"k\n\rModifyReques"
+    "t\022\017\n\007user_id\030\001 \001(\t\022\020\n\010order_id\030\002 \001(\t\022\016\n\006"
+    "symbol\030\003 \001(\t\022\021\n\tnew_price\030\004 \001(\001\022\024\n\014new_q"
+    "uantity\030\005 \001(\001\"1\n\016ModifyResponse\022\016\n\006statu"
+    "s\030\001 \001(\t\022\017\n\007message\030\002 \001(\t2\374\001\n\014OrderServic"
+    "e\0228\n\013SubmitOrder\022\023.order.OrderRequest\032\024."
+    "order.OrderResponse\022:\n\013CheckHealth\022\024.ord"
+    "er.HealthRequest\032\025.order.HealthResponse\022"
+    ":\n\013CancelOrder\022\024.order.CancelRequest\032\025.o"
+    "rder.CancelResponse\022:\n\013ModifyOrder\022\024.ord"
+    "er.ModifyRequest\032\025.order.ModifyResponseb"
+    "\006proto3"
 };
 static ::absl::once_flag descriptor_table_order_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_order_2eproto = {
     false,
     false,
-    829,
+    847,
     descriptor_table_protodef_order_2eproto,
     "order.proto",
     &descriptor_table_order_2eproto_once,
@@ -452,6 +457,7 @@ inline PROTOBUF_NDEBUG_INLINE OrderRequest::Impl_::Impl_(
         symbol_(arena, from.symbol_),
         side_(arena, from.side_),
         ordertype_(arena, from.ordertype_),
+        order_id_(arena, from.order_id_),
         _cached_size_{0} {}
 
 OrderRequest::OrderRequest(
@@ -484,6 +490,7 @@ inline PROTOBUF_NDEBUG_INLINE OrderRequest::Impl_::Impl_(
         symbol_(arena),
         side_(arena),
         ordertype_(arena),
+        order_id_(arena),
         _cached_size_{0} {}
 
 inline void OrderRequest::SharedCtor(::_pb::Arena* arena) {
@@ -507,6 +514,7 @@ inline void OrderRequest::SharedDtor(MessageLite& self) {
   this_._impl_.symbol_.Destroy();
   this_._impl_.side_.Destroy();
   this_._impl_.ordertype_.Destroy();
+  this_._impl_.order_id_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -546,15 +554,15 @@ const ::google::protobuf::internal::ClassData* OrderRequest::GetClassData() cons
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 9, 0, 61, 2> OrderRequest::_table_ = {
+const ::_pbi::TcParseTable<4, 10, 0, 69, 2> OrderRequest::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    9, 120,  // max_field_number, fast_idx_mask
+    10, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966784,  // skipmap
+    4294966272,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
+    10,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -592,7 +600,9 @@ const ::_pbi::TcParseTable<4, 9, 0, 61, 2> OrderRequest::_table_ = {
     // double leverage = 9;
     {::_pbi::TcParser::FastF64S1,
      {73, 63, 0, PROTOBUF_FIELD_OFFSET(OrderRequest, _impl_.leverage_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // string order_id = 10;
+    {::_pbi::TcParser::FastUS1,
+     {82, 63, 0, PROTOBUF_FIELD_OFFSET(OrderRequest, _impl_.order_id_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -628,15 +638,19 @@ const ::_pbi::TcParseTable<4, 9, 0, 61, 2> OrderRequest::_table_ = {
     // double leverage = 9;
     {PROTOBUF_FIELD_OFFSET(OrderRequest, _impl_.leverage_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // string order_id = 10;
+    {PROTOBUF_FIELD_OFFSET(OrderRequest, _impl_.order_id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\22\7\6\0\0\4\11\0\0\0\0\0\0\0\0\0"
+    "\22\7\6\0\0\4\11\0\0\0\10\0\0\0\0\0"
     "order.OrderRequest"
     "user_id"
     "symbol"
     "side"
     "ordertype"
+    "order_id"
   }},
 };
 
@@ -651,6 +665,7 @@ PROTOBUF_NOINLINE void OrderRequest::Clear() {
   _impl_.symbol_.ClearToEmpty();
   _impl_.side_.ClearToEmpty();
   _impl_.ordertype_.ClearToEmpty();
+  _impl_.order_id_.ClearToEmpty();
   ::memset(&_impl_.price_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.leverage_) -
       reinterpret_cast<char*>(&_impl_.price_)) + sizeof(_impl_.leverage_));
@@ -739,6 +754,14 @@ PROTOBUF_NOINLINE void OrderRequest::Clear() {
                 9, this_._internal_leverage(), target);
           }
 
+          // string order_id = 10;
+          if (!this_._internal_order_id().empty()) {
+            const std::string& _s = this_._internal_order_id();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "order.OrderRequest.order_id");
+            target = stream->WriteStringMaybeAliased(10, _s, target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -783,6 +806,11 @@ PROTOBUF_NOINLINE void OrderRequest::Clear() {
             if (!this_._internal_ordertype().empty()) {
               total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                               this_._internal_ordertype());
+            }
+            // string order_id = 10;
+            if (!this_._internal_order_id().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_order_id());
             }
             // double price = 3;
             if (::absl::bit_cast<::uint64_t>(this_._internal_price()) != 0) {
@@ -829,6 +857,9 @@ void OrderRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   if (!from._internal_ordertype().empty()) {
     _this->_internal_set_ordertype(from._internal_ordertype());
   }
+  if (!from._internal_order_id().empty()) {
+    _this->_internal_set_order_id(from._internal_order_id());
+  }
   if (::absl::bit_cast<::uint64_t>(from._internal_price()) != 0) {
     _this->_impl_.price_ = from._impl_.price_;
   }
@@ -864,6 +895,7 @@ void OrderRequest::InternalSwap(OrderRequest* PROTOBUF_RESTRICT other) {
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.symbol_, &other->_impl_.symbol_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.side_, &other->_impl_.side_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.ordertype_, &other->_impl_.ordertype_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.order_id_, &other->_impl_.order_id_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(OrderRequest, _impl_.leverage_)
       + sizeof(OrderRequest::_impl_.leverage_)

@@ -21,6 +21,7 @@ RedisPublisher::RedisPublisher() {
 void RedisPublisher::publishTrade(const order::OrderRequest& req, const std::string& trade_id) {
     try {
         json trade = {
+            {"order_id", req.order_id()},
             {"symbol", req.symbol()},
             {"user", req.user_id()},
             {"qty", req.quantity()},
@@ -61,6 +62,7 @@ void RedisPublisher::publishReject(const order::OrderRequest& req, const std::st
 
         for (int attempt = 1; attempt <= 3; ++attempt) {
             try {
+
                 redis_->xadd("STREAM:REJECT", "*", std::initializer_list<std::pair<std::string, std::string>>{{"reject", payload}});
                 SPDLOG_WARN("🚫 Order rejected and published to STREAM:REJECT: {}", payload);
                 return;

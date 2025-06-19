@@ -3,7 +3,7 @@
 #include "rms/user_state.hpp"
 #include "rms/metrics.hpp"
 #include "redis_retry.hpp"
-
+#include "symbol_client.hpp"
 #include <mutex>
 #include <memory>
 #include <atomic>
@@ -29,6 +29,9 @@ private:
     double marginUsed_ = 0.0;
     std::mutex lock_;
     std::atomic<bool> syncingMargin_{false};
+
+    double mmr_ = 0.05; // default fallback
+    std::unique_ptr<SymbolRegistryClient> symbol_client_;  // gRPC stub
 
     void calculatePnL();
     void checkLiquidation();

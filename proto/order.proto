@@ -12,7 +12,11 @@ message OrderRequest {
   double ltp = 7;
   double stopprice = 8;
   double leverage = 9;
+
+  string order_id = 10;
+   
 }
+
 
 message OrderResponse {
   string status = 1;     // ACCEPTED / REJECTED / ERROR
